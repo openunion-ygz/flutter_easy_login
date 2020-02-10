@@ -82,7 +82,7 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
               @Override
               public void onFailed(String s) {
                 Log.e(TAG,s);
-                result.success(s);
+//                result.success(s);
               }
             },getLoginUiConfig());
           }else {
