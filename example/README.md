@@ -7,11 +7,13 @@ Demonstrates how to use the flutter_easy_login plugin.
 ## Android
 
 一、概述
+
     该插件是根据亿美提供的sdk、android及ios分别在对应的原生平台进行集成、flutter再通过对应的通道方法进行调用，
 
-    实现亿美一键登录功能的插件。目前仅集成android平台。
+    实现亿美一键登录功能的插件。目前仅集成android平台，IOS在后续更新中...
 
 二、使用流程
+
     1.根据向亿美提供的包名创建flutter工程（如：在亿美后台申请的应用包名为“com.opun.xxx”，则需要创建工程名为该名称，
 
     只有应用包名与亿美后台对应，后台才能识别签名）；
