@@ -145,7 +145,14 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
         Log.e("onSuccess ==>",s);
         Log.e(TAG,"===============================================");
         isLogin = true;
-        result.success(s);
+        activity.runOnUiThread(
+                new Runnable() {
+                  @Override
+                  public void run() {
+                    result.success(s);
+                  }
+                });
+
       }
 
       @Override
@@ -154,7 +161,13 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
         Log.e("onFailed ==>",s);
         Log.e(TAG,"===============================================");
         if (!isLogin){
-          result.success(s);
+          activity.runOnUiThread(
+                  new Runnable() {
+                    @Override
+                    public void run() {
+                      result.success(s);
+                    }
+                  });
         }
         isLogin = false;
 
