@@ -1,0 +1,74 @@
+group 'com.opun.flutter_easy_login'
+version '1.0'
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.0'
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+        minSdkVersion 19
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    sourceSets {
+        main {
+            res.srcDirs = ['src/main/res', 'src/main/res-login']
+        }
+    }
+//    packagingOptions {
+////        pickFirst 'res/values/values.xml'
+//        exclude 'libs/CMCCSSOSDK-release.aar/res/values/values.xml'
+//        exclude 'libs/CTAccountSdk_HY_v3.7.0_all.aar/res/values/values.xml'
+//        exclude 'libs/loginsdk1.0.4-release.aar/res/values/values.xml'
+//    }
+}
+
+//    亿美一键登录依赖包
+//implementation(name: 'CMCCSSOSDK-release', ext: 'aar')
+//implementation(name: 'loginsdk1.0.4-release', ext: 'aar')
+//implementation(name: 'CTAccountSdk_HY_v3.7.0_all', ext: 'aar')
+//implementation(name: 'Ui-factory_oauth_mobile_3.8.3.1', ext: 'aar')
+//implementation 'com.alibaba:fastjson:1.2.58'
+//implementation 'com.squareup.okhttp3:okhttp:3.14.1'
+
+//repositories {
+//    flatDir {
+//        dirs 'libs'
+//    }
+//}
+
+dependencies {
+    implementation fileTree(include: ['*.jar','*.aar'], dir: 'libs')
+//    api 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.alibaba:fastjson:1.2.58'
+    implementation 'com.squareup.okhttp3:okhttp:3.14.1'
+    implementation 'androidx.appcompat:appcompat:1.0.0-alpha1'
+//    implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
+}
