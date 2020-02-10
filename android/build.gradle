@@ -30,6 +30,7 @@ android {
     }
     lintOptions {
         disable 'InvalidPackage'
+        abortOnError false
     }
 
     compileOptions {
@@ -42,12 +43,16 @@ android {
             res.srcDirs = ['src/main/res', 'src/main/res-login']
         }
     }
-//    packagingOptions {
-////        pickFirst 'res/values/values.xml'
+    packagingOptions {
+      pickFirst 'res/values/values.xml'
+        pickFirst 'AndroidManifest.xml'
+        pickFirst 'res/drawable/login_bg.xml'
+        pickFirst 'R.txt'
+        pickFirst 'classes.jar'
 //        exclude 'libs/CMCCSSOSDK-release.aar/res/values/values.xml'
 //        exclude 'libs/CTAccountSdk_HY_v3.7.0_all.aar/res/values/values.xml'
 //        exclude 'libs/loginsdk1.0.4-release.aar/res/values/values.xml'
-//    }
+    }
 }
 
 //    亿美一键登录依赖包

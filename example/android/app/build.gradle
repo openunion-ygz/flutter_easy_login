@@ -29,6 +29,7 @@ android {
 
     lintOptions {
         disable 'InvalidPackage'
+        abortOnError false
     }
 
     defaultConfig {
@@ -52,6 +53,7 @@ android {
 //            storePassword '123456'
 //        }
 
+
         release {
             keyAlias 'campuscafa'
             keyPassword '123456'
@@ -70,14 +72,12 @@ android {
     }
 
 //    packagingOptions {
-//        exclude 'res/values/values.xml'
-//    }
-    packagingOptions {
 //        pickFirst 'res/values/values.xml'
+//        exclude 'res/values/values.xml'
 //        exclude 'libs/CMCCSSOSDK-release.aar/res/values/values.xml'
 //        exclude 'libs/CTAccountSdk_HY_v3.7.0_all.aar/res/values/values.xml'
 //        exclude 'libs/loginsdk1.0.4-release.aar/res/values/values.xml'
-    }
+//    }
 }
 
 flutter {
