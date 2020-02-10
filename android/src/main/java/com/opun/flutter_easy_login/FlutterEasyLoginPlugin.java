@@ -30,6 +30,7 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
   public static final int REQUEST_CODE_PERMISSION = 200;
   private LoginUiConfig mLoginUiConfig;
   private boolean isPermissionGrand = false;
+  private boolean isLogin = false;
 
   /**
    * Plugin registration.
@@ -137,20 +138,26 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
   }
 
   private void login(Result result){
-
     UniSDK.getInstance().login(activity.getApplication(), Constants.APP_ID, Constants.SECRET_KEY, new LoginCallback() {
       @Override
       public void onSuccess(String s) {
-        Log.e(TAG,s);
+        Log.e(TAG,"===============================================");
         Log.e("onSuccess ==>",s);
+        Log.e(TAG,"===============================================");
+        isLogin = true;
         result.success(s);
       }
 
       @Override
       public void onFailed(String s) {
-        Log.e(TAG,s);
+        Log.e(TAG,"===============================================");
         Log.e("onFailed ==>",s);
-//                result.success(s);
+        Log.e(TAG,"===============================================");
+        if (!isLogin){
+          result.success(s);
+        }
+        isLogin = false;
+
       }
     },getLoginUiConfig());
   }
