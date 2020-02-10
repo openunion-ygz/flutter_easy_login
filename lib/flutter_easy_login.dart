@@ -19,16 +19,15 @@ class FlutterEasyLogin {
   static FlutterEasyLogin _instance = new FlutterEasyLogin._();
 
   static FlutterEasyLogin get instance => _instance;
-  static Future<String> get platformVersion async {
-    final String version = await _channel.invokeMethod('getPlatformVersion');
-    return version;
-  }
-///sdk初始化
+
+///sdk初始化（手机权限申请）
   Future<bool> initSdk(){
     return _channel.invokeMethod('initSdk')
         .then<bool>((isSucc) => isSucc);
 }
 ///UI页面配置
+  ///protocolText 自定义协议文案
+  ///protocolUrl  自定义协议url
   Future<bool>  setLoginUiConfig(String protocolText,String protocolUrl){
     Map<String, dynamic> uiConfigMap = new Map();
     uiConfigMap['protocolText'] = protocolText;
@@ -36,7 +35,7 @@ class FlutterEasyLogin {
     return _channel.invokeMethod('setLoginUiConfig',uiConfigMap)
         .then<bool>((isConfig) => isConfig);
 }
-
+///登陆
 Future<String> login(){
     return _channel.invokeMethod('login')
         .then<String>((phoneNumStr) => phoneNumStr);

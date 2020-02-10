@@ -25,11 +25,11 @@ class _MyAppState extends State<MyApp> {
   Future<void> initPlatformState() async {
     String platformVersion;
     // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      platformVersion = await FlutterEasyLogin.platformVersion;
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
+//    try {
+//      platformVersion = await FlutterEasyLogin.platformVersion;
+//    } on PlatformException {
+//      platformVersion = 'Failed to get platform version.';
+//    }
 
     // If the widget was removed from the tree while the asynchronous platform
     // message was in flight, we want to discard the reply rather than calling
@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
     if (!mounted) return;
 
     setState(() {
-      _platformVersion = platformVersion;
+//      _platformVersion = platformVersion;
     });
   }
 

@@ -3,8 +3,8 @@ package com.opun.flutter_easy_login;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -17,7 +17,6 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry;
-import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 
 public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry.RequestPermissionsResultListener {
@@ -53,10 +52,7 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
   public void onMethodCall(MethodCall call, Result result) {
     mResult = result;
     switch (call.method){
-      case "getPlatformVersion":{
-        result.success("Android " + android.os.Build.VERSION.RELEASE);
-        break;
-      }
+
       case "initSdk":{
         String version = UniSDK.getInstance().getVersion();
         result.success(requestPermission());
@@ -70,27 +66,16 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
       }
 
       case "login":{
-        if (getLoginUiConfig() != null){
           if (isPermissionGrand){
-            UniSDK.getInstance().login(activity.getApplication(), Constants.APP_ID, Constants.SECRET_KEY, new LoginCallback() {
-              @Override
-              public void onSuccess(String s) {
-                Log.e(TAG,s);
-                result.success(s);
-              }
-
-              @Override
-              public void onFailed(String s) {
-                Log.e(TAG,s);
-//                result.success(s);
-              }
-            },getLoginUiConfig());
+            if (getLoginUiConfig() != null){
+              login(result);
+            }else {
+              setLoginUiConfig("","");
+              login(result);
+            }
           }else {
               requestPermission();
           }
-        }else {
-          Toast.makeText(activity.getApplication(),"配置错误",Toast.LENGTH_SHORT).show();
-        }
         break;
       }
 
@@ -116,27 +101,31 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
 
   }
   private boolean setLoginUiConfig(String protocolText, String protocolUrl) {
+    if (TextUtils.isEmpty(protocolText) || TextUtils.isEmpty(protocolUrl)){
+      protocolText = Constants.PROTOCOL_TEXT_DEFAULT;
+      protocolUrl = Constants.PROTOCOL_URL_DEFAULT;
+    }
     LoginUiConfig uiConfig = new LoginUiConfig();
     LoginUiConfig.YiDongLoginConfig yidongConfig = uiConfig.new YiDongLoginConfig();
     yidongConfig.setLoginLogo("logo");
-    yidongConfig.setProtocolText("用户自定义协议");
-    yidongConfig.setProtocolUrl("http://www.baidu.com");
+    yidongConfig.setProtocolText(protocolText);
+    yidongConfig.setProtocolUrl(protocolUrl);
     yidongConfig.setShowOtherLogin(false);
     uiConfig.setYiDongLoginConfig(yidongConfig);
 
     LoginUiConfig.LianTongLoginConfig lianTongLoginConfig = uiConfig.new LianTongLoginConfig();
     lianTongLoginConfig.setLoginLogo(R.drawable.logo);
 
-    lianTongLoginConfig.setProtocolText("用户自定义协议");
-    lianTongLoginConfig.setProtocolUrl("http://www.baidu.com");
+    lianTongLoginConfig.setProtocolText(protocolText);
+    lianTongLoginConfig.setProtocolUrl(protocolUrl);
     lianTongLoginConfig.setShowOtherLogin(false);
     uiConfig.setLianTongLoginConfig(lianTongLoginConfig);
 
     LoginUiConfig.DianXinLoginConfig dianXinLoginConfig = uiConfig.new DianXinLoginConfig();
     dianXinLoginConfig.setLoginLogo(R.drawable.logo);
 
-    dianXinLoginConfig.setProtocolText("用户自定义协议");
-    dianXinLoginConfig.setProtocolUrl("http://www.baidu.com");
+    dianXinLoginConfig.setProtocolText(protocolText);
+    dianXinLoginConfig.setProtocolUrl(protocolUrl);
     dianXinLoginConfig.setShowOtherLogin(false);
     uiConfig.setDianXinLoginConfig(dianXinLoginConfig);
     mLoginUiConfig = uiConfig;
@@ -145,6 +134,25 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
 
   private LoginUiConfig getLoginUiConfig(){
     return mLoginUiConfig;
+  }
+
+  private void login(Result result){
+
+    UniSDK.getInstance().login(activity.getApplication(), Constants.APP_ID, Constants.SECRET_KEY, new LoginCallback() {
+      @Override
+      public void onSuccess(String s) {
+        Log.e(TAG,s);
+        Log.e("onSuccess ==>",s);
+        result.success(s);
+      }
+
+      @Override
+      public void onFailed(String s) {
+        Log.e(TAG,s);
+        Log.e("onFailed ==>",s);
+//                result.success(s);
+      }
+    },getLoginUiConfig());
   }
 
   @Override
