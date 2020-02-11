@@ -16,5 +16,27 @@
         tools:replace="android:allowBackup"
         android:supportsRtl="true"
         >
+        <activity
+            android:name="com.cmic.sso.sdk.activity.OAuthActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="unspecified"
+            android:launchMode="singleTop">
+        </activity>
+        <!-- required -->
+        <activity
+            android:name="com.cmic.sso.sdk.activity.LoginAuthActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="unspecified"
+            android:launchMode="singleTop">
+        </activity>
+
+        <activity
+            android:name="cn.com.chinatelecom.account.sdk.ui.AuthActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="cn.com.chinatelecom.account.sdk.ui.PrivacyWebviewActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
     </application>
 </manifest>
