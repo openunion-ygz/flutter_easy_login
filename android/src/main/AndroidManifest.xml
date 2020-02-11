@@ -34,13 +34,11 @@
             android:name="cn.com.chinatelecom.account.sdk.ui.AuthActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:launchMode="singleInstance"
             />
         <activity
             android:name="cn.com.chinatelecom.account.sdk.ui.PrivacyWebviewActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:launchMode="singleInstance"
             />
     </application>
 </manifest>
