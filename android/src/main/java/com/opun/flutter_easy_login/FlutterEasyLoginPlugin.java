@@ -139,7 +139,7 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
   }
 
   private void login(Result result){
-    UniSDK.getInstance().login(activity.getApplication(), Constants.APP_ID, Constants.SECRET_KEY, new LoginCallback() {
+    UniSDK.getInstance().login(activity, Constants.APP_ID, Constants.SECRET_KEY, new LoginCallback() {
       @Override
       public void onSuccess(String s) {
         Log.e(TAG,"===============================================");
