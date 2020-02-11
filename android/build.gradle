@@ -44,11 +44,37 @@ android {
         }
     }
     packagingOptions {
-      pickFirst 'res/values/values.xml'
-        pickFirst 'AndroidManifest.xml'
-        pickFirst 'res/drawable/login_bg.xml'
-        pickFirst 'R.txt'
-        pickFirst 'classes.jar'
+//        findProperty('libs/CMCCSSOSDK-release.aar/res/values/values.xml')
+//        findProperty('libs/CMCCSSOSDK-release.aar/AndroidManifest.xml')
+//        findProperty('libs/CMCCSSOSDK-release.aar/res/drawable/login_bg.xml')
+//        findProperty('libs/CMCCSSOSDK-release.aar/R.txt')
+//        findProperty('libs/CMCCSSOSDK-release.aar/classes.jar')
+//
+//        findProperty('libs/CTAccountSdk_HY_v3.7.0_all.aar/res/values/values.xml')
+//        findProperty('libs/CTAccountSdk_HY_v3.7.0_all.aar/AndroidManifest.xml')
+//        findProperty('libs/CTAccountSdk_HY_v3.7.0_all.aar/res/drawable/login_bg.xml')
+//        findProperty('libs/CTAccountSdk_HY_v3.7.0_all.aar/R.txt')
+//        findProperty('libs/CTAccountSdk_HY_v3.7.0_all.aar/classes.jar')
+//
+//        findProperty('libs/loginsdk-debug.aar/res/values/values.xml')
+//        findProperty('libs/loginsdk-debug.aar/AndroidManifest.xml')
+//        findProperty('libs/loginsdk-debug.aar/res/drawable/login_bg.xml')
+//        findProperty('libs/loginsdk-debug.aar/R.txt')
+//        findProperty('libs/loginsdk-debug.aar/classes.jar')
+//
+//        findProperty('libs/Ui-factory_oauth_mobile_3.8.3.1.aar/res/values/values.xml')
+//        findProperty('libs/Ui-factory_oauth_mobile_3.8.3.1.aar/AndroidManifest.xml')
+//        findProperty('libs/Ui-factory_oauth_mobile_3.8.3.1.aar/res/drawable/login_bg.xml')
+//        findProperty('libs/Ui-factory_oauth_mobile_3.8.3.1.aar/R.txt')
+//        findProperty('libs/Ui-factory_oauth_mobile_3.8.3.1.aar/classes.jar')
+
+
+//        pickFirst 'res/values/values.xml'
+//        pickFirst 'AndroidManifest.xml'
+//        pickFirst 'res/drawable/login_bg.xml'
+//        pickFirst 'R.txt'
+//        pickFirst 'classes.jar'
+
 //        exclude 'libs/CMCCSSOSDK-release.aar/res/values/values.xml'
 //        exclude 'libs/CTAccountSdk_HY_v3.7.0_all.aar/res/values/values.xml'
 //        exclude 'libs/loginsdk1.0.4-release.aar/res/values/values.xml'
@@ -63,14 +89,14 @@ android {
 //implementation 'com.alibaba:fastjson:1.2.58'
 //implementation 'com.squareup.okhttp3:okhttp:3.14.1'
 
-//repositories {
-//    flatDir {
-//        dirs 'libs'
-//    }
-//}
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
 
 dependencies {
-    implementation fileTree(include: ['*.jar','*.aar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
 //    api 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.alibaba:fastjson:1.2.58'
     implementation 'com.squareup.okhttp3:okhttp:3.14.1'

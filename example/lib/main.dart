@@ -13,12 +13,14 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
+  String _phoneNum = '';
+  bool _isInit = false;
 
   @override
   void initState() {
     super.initState();
     initPlatformState();
-    initLoginSdk();
+//    initLoginSdk();
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -49,16 +51,44 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: new IconButton(icon: new Icon(Icons.account_box), onPressed: (){
-            FlutterEasyLogin.instance.login();
-          }),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              RaisedButton(child: Text('亿美一键登录初始化'),
+                  onPressed: (){
+                    FlutterEasyLogin.instance.initSdk().then((isInit) => _isInit);
+                    print('_isInit  ===> $_isInit');
+                    FlutterEasyLogin.instance.setLoginUiConfig('自定义协议', 'http://www.baidu.com');
+                  }),
+              RaisedButton(child: Text('亿美一键登录测试'),
+                onPressed: (){
+//            if(_isInit){
+                  FlutterEasyLogin.instance.login().then((phoneNum){
+                    print('phoneNum  ===> $phoneNum');
+                    setState(() {
+                      _phoneNum = phoneNum;
+                    });
+                  });
+//            }else{
+//              Toast.show('请先初始化',context);
+//            }
+                },
+              ),
+              Text(
+                '亿美一键登录返回结果:',
+              ),
+              Text(
+                '$_phoneNum',
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  void initLoginSdk() {
-    FlutterEasyLogin.instance.initSdk();
-    FlutterEasyLogin.instance.setLoginUiConfig('自定义协议', 'http://www.baidu.com');
-  }
+//  void initLoginSdk() {
+//    FlutterEasyLogin.instance.initSdk();
+//    FlutterEasyLogin.instance.setLoginUiConfig('自定义协议', 'http://www.baidu.com');
+//  }
 }
