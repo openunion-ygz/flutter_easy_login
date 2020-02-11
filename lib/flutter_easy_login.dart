@@ -21,9 +21,8 @@ class FlutterEasyLogin {
   static FlutterEasyLogin get instance => _instance;
 
 ///sdk初始化（手机权限申请）
-  Future<bool> initSdk(){
-    return _channel.invokeMethod('initSdk')
-        .then<bool>((isSucc) => isSucc);
+  void initSdk(){
+     _channel.invokeMethod('initSdk');
 }
 ///UI页面配置
   ///protocolText 自定义协议文案

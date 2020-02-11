@@ -75,6 +75,8 @@ A EasyLogin Flutter plugin.
 
          (3)默认的UI样式已经可以满足三大运营商的一键登录UI设计标准
 
+         (4)默认该方法传入空字符串
+
     3.登录方法：
 
     FlutterEasyLogin.instance.login();

@@ -14,13 +14,11 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
   String _phoneNum = '';
-  bool _isInit = false;
 
   @override
   void initState() {
     super.initState();
     initPlatformState();
-//    initLoginSdk();
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -56,22 +54,17 @@ class _MyAppState extends State<MyApp> {
             children: <Widget>[
               RaisedButton(child: Text('亿美一键登录初始化'),
                   onPressed: (){
-                    FlutterEasyLogin.instance.initSdk().then((isInit) => _isInit);
-                    print('_isInit  ===> $_isInit');
+                    FlutterEasyLogin.instance.initSdk();
                     FlutterEasyLogin.instance.setLoginUiConfig('自定义协议', 'http://www.baidu.com');
                   }),
               RaisedButton(child: Text('亿美一键登录测试'),
                 onPressed: (){
-//            if(_isInit){
                   FlutterEasyLogin.instance.login().then((phoneNum){
                     print('phoneNum  ===> $phoneNum');
                     setState(() {
                       _phoneNum = phoneNum;
                     });
                   });
-//            }else{
-//              Toast.show('请先初始化',context);
-//            }
                 },
               ),
               Text(
@@ -86,9 +79,4 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
-
-//  void initLoginSdk() {
-//    FlutterEasyLogin.instance.initSdk();
-//    FlutterEasyLogin.instance.setLoginUiConfig('自定义协议', 'http://www.baidu.com');
-//  }
 }
