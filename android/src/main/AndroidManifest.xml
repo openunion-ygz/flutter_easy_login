@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.GET_TASKS"/>
     <application
         android:allowBackup="true"
@@ -33,10 +33,14 @@
         <activity
             android:name="cn.com.chinatelecom.account.sdk.ui.AuthActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance"
+            />
         <activity
             android:name="cn.com.chinatelecom.account.sdk.ui.PrivacyWebviewActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance"
+            />
     </application>
 </manifest>
