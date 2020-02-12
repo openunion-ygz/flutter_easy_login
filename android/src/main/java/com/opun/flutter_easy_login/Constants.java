@@ -9,4 +9,7 @@ public class Constants {
     public static final String PROTOCOL_TEXT_DEFAULT = "用户自定义协议";
     public static final String PROTOCOL_URL_DEFAULT = "http://www.baidu.com";
 
+    public static final String LOGIN_RESULT_KEY = "login_result";
+    public static final String LOGIN_DATA_KEY = "login_data";
+
 }

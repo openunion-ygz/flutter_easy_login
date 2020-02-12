@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -13,7 +15,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
-  String _phoneNum = '';
+  String _loginResult = '';
+  String _isLoginSuccessStr = '';
 
   @override
   void initState() {
@@ -59,10 +62,12 @@ class _MyAppState extends State<MyApp> {
                   }),
               RaisedButton(child: Text('亿美一键登录测试'),
                 onPressed: (){
-                  FlutterEasyLogin.instance.login().then((phoneNum){
-                    print('phoneNum  ===> $phoneNum');
+                  FlutterEasyLogin.instance.login().then((loginResult){
+                    print('_loginResult  ===> $loginResult');
                     setState(() {
-                      _phoneNum = phoneNum;
+                      Map<String, dynamic> map = json.decode(loginResult);
+                      _isLoginSuccessStr = map[FlutterEasyLogin.LOGIN_RESULT_KEY];
+                      _loginResult = map[FlutterEasyLogin.LOGIN_DATA_KEY];
                     });
                   });
                 },
@@ -71,7 +76,10 @@ class _MyAppState extends State<MyApp> {
                 '亿美一键登录返回结果:',
               ),
               Text(
-                '$_phoneNum',
+                '$_isLoginSuccessStr',
+              ),
+              Text(
+                '$_loginResult',
               ),
             ],
           ),

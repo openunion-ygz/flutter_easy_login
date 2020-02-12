@@ -81,7 +81,25 @@ A EasyLogin Flutter plugin.
 
     FlutterEasyLogin.instance.login();
 
-    若登录成功，则该方法会返回一个加密的手机号字符串，获取到加密的手机号字符串之后，可以根据业务逻辑需求进行对应的操作。
+    若登录成功，则该方法会得到一个json字符串，包含登录成功与否的结果与主要的信息。若登录成功，
+
+    则可得到加密的手机号字符串，获取到加密的手机号字符串之后，可以根据业务逻辑需求进行对应的操作；
+
+    若登录失败，则返回登录失败的主要信息。
+
+    注意：得到返回结果字符串之后，根据规定的键进行取值，即：
+
+    返回结果：
+
+    {"login_result":"false","login_data":"登录失败 ： 应用与密钥信息不匹配"}
+
+    根据键取值：
+
+       Map<String, dynamic> map = json.decode(loginResult);
+       String isLoginSuccessStr = map[FlutterEasyLogin.LOGIN_RESULT_KEY];
+       String loginResult = map[FlutterEasyLogin.LOGIN_DATA_KEY];
+
+       其中，FlutterEasyLogin.LOGIN_RESULT_KEY,FlutterEasyLogin.LOGIN_DATA_KEY 为固定的键
 
 ## 四、注意事项：
 
