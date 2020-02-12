@@ -63,6 +63,8 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
       case "setLoginUiConfig":{
         String protocolText = call.argument(Constants.PARAM_KEY_PROTOCOL_TEXT);
         String protocolUrl = call.argument(Constants.PARAM_KEY_PROTOCOL_URL);
+        Log.e("protocolText===>",protocolText);
+        Log.e("protocolUrl===>",protocolUrl);
         result.success(setLoginUiConfig(protocolText,protocolUrl));
         break;
       }

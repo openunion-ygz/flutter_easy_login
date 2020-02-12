@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> {
               RaisedButton(child: Text('亿美一键登录初始化'),
                   onPressed: (){
                     FlutterEasyLogin.instance.initSdk();
-                    FlutterEasyLogin.instance.setLoginUiConfig('自定义协议', 'http://www.baidu.com');
+                    FlutterEasyLogin.instance.setLoginUiConfig('开联自定义协议', 'http://www.baidu.com');
                   }),
               RaisedButton(child: Text('亿美一键登录测试'),
                 onPressed: (){

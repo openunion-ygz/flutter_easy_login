@@ -29,8 +29,8 @@ class FlutterEasyLogin {
   ///protocolUrl  自定义协议url
   Future<bool>  setLoginUiConfig(String protocolText,String protocolUrl){
     Map<String, dynamic> uiConfigMap = new Map();
-    uiConfigMap['protocolText'] = protocolText;
-    uiConfigMap['protocolUrl'] = protocolUrl;
+    uiConfigMap[Constants.UI_CONFIG_PROTOCOL_TEXT_KEY] = protocolText;
+    uiConfigMap[Constants.UI_CONFIG_PROTOCOL_URL_KEY] = protocolUrl;
     return _channel.invokeMethod('setLoginUiConfig',uiConfigMap)
         .then<bool>((isConfig) => isConfig);
 }
