@@ -160,9 +160,9 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
         yidongConfig.setNavTextSize(17);
 
         yidongConfig.setLoginLogo("cafa_logo");//logo图片
-        yidongConfig.setLogoWidthDip(70);//图片宽度
-        yidongConfig.setLogoHeightDip(70);//图片高度
-        yidongConfig.setLogoOffsetY(100);//图片Y偏移量
+        yidongConfig.setLogoWidthDip(80);//图片宽度
+        yidongConfig.setLogoHeightDip(80);//图片高度
+        yidongConfig.setLogoOffsetY(0);//图片Y偏移量
         yidongConfig.setLogoHidden(false);//logo图片隐藏
 
         yidongConfig.setNumberColor(0xff333333);//手机号码字体颜色
