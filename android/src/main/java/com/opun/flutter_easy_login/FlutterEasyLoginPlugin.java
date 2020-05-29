@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
@@ -161,8 +162,8 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
 
         yidongConfig.setLoginLogo("cafa_logo");//logo图片
         yidongConfig.setLogoWidthDip(80);//图片宽度
-        yidongConfig.setLogoHeightDip(80);//图片高度
-        yidongConfig.setLogoOffsetY(0);//图片Y偏移量
+        yidongConfig.setLogoHeightDip((int) (70*getDensityRatio()));//图片高度
+        yidongConfig.setLogoOffsetY(100);//图片Y偏移量
         yidongConfig.setLogoHidden(false);//logo图片隐藏
 
         yidongConfig.setNumberColor(0xff333333);//手机号码字体颜色
@@ -296,5 +297,15 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
             }
         }
         return false;
+    }
+    //根据手机像素密度获取其与标准360dp的比例，用于设置移动logo的高度
+    private float getDensityRatio(){
+        DisplayMetrics dm = activity.getResources().getDisplayMetrics();
+        int screenWidth = dm.widthPixels;
+        int screenHeight = dm.heightPixels;
+        int densityDpi = dm.densityDpi;
+        float densityRatio = densityDpi / 360.0f;
+        Log.e(TAG, "getDensityRatio==============================================="+densityRatio);
+        return densityRatio;
     }
 }
