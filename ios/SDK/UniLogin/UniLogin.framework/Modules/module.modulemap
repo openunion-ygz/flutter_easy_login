@@ -1,0 +1,6 @@
+framework module UniLogin {
+  umbrella header "UniLogin.h"
+
+  export *
+  module * { export * }
+}
