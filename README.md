@@ -22,11 +22,11 @@ A EasyLogin Flutter plugin.
 
      flutter_easy_login:
         git:
-          url: https://github.com/yiguozhen0510/flutter_easy_login.git
+          url: https://github.com/openunion-ygz/flutter_easy_login.git
 
      3.在flutter项目的android项目中添加配置：
 
-     application中添加：“tools:replace="android:label"”
+     application中添加：“tools:replace="android:allowBackup,android:label"”,同时，在根节点声明：" xmlns:tools="http://schemas.android.com/tools""
 
      4.android工程下的gradle文件中添加签名信息：（注意：在android{}中，同时，根据签名文件的位置对应修改路径 “storeFile file”）
 
@@ -105,7 +105,9 @@ A EasyLogin Flutter plugin.
 
     1.由于Flutter插件开发的需要，本插件中的example/android工程的包名并不是亿美一键登录后台的对应的包名，因此在运行example/android项目时，
 
-    无法登陆成功，会出现“应用包名与签名信息不符”问题，因此，使用时需要根据包名另外创建新的flutter工程，再引用本插件。
+    无法登陆成功，会出现“应用包名与签名信息不符”问题，因此，使用时需要根据包名另外创建新的flutter工程，再引用本插件;
+
+    2.关于登录页面的logo图片设置：目前，修改logo，只能通过修改插件本地资源文件的形式，即：若需要修改logo，则需要提供对应的logo图片资源，同时修改插件。
 
 ##=========================================================================================
 
