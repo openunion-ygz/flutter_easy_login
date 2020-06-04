@@ -16,6 +16,10 @@ __weak FlutterEasyLoginPlugin* __FlutterEasyLoginPlugin;
 //自定义协议url
 @property (readwrite,copy,nonatomic) NSString * appPrivacyOneUrl;
 
+@property (readwrite,copy,nonatomic) NSString * appId;
+
+@property (readwrite,copy,nonatomic) NSString * secretKey;
+
 @implementation FlutterEasyLoginPlugin{
     UIViewController *_viewController;
 }
@@ -45,6 +49,8 @@ __weak FlutterEasyLoginPlugin* __FlutterEasyLoginPlugin;
  if ([@"getPlatformVersion" isEqualToString:call.method]) {
     result([@"iOS " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
   }else if([@"initSdk" isEqualToString:call.method]){
+      self.appId = call.arguments[@"appId"];
+       self.secretKey = call.arguments[@"secretKey"];
   result(YES)
   }else if([@"setLoginUiConfig" isEqualToString:call.method]){
       self.appPrivacyOneText = call.arguments[@"protocolText"];
@@ -52,7 +58,11 @@ __weak FlutterEasyLoginPlugin* __FlutterEasyLoginPlugin;
       result(YES);
   }else if([@"login" isEqualToString:call.method]){
     UniLogin *loginSDK = [UniLogin shareInstance];
-      UIImage *logo = [UIImage imageNamed:@"cafa_logo"];
+
+    UIImage *logo = [UIImage imageNamed: @"Images/cafa_logo.png"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"cafa_logo.png" ofType:nil inDirectory:@"Images"];
+    logo = [[UIImage alloc]initWithContentsOfFile:path];
+      //UIImage *logo = [UIImage imageNamed:@"cafa_logo"];
       loginSDK.cmccLogoImg = logo;
       loginSDK.cuccLogoImg = logo;
       loginSDK.ctccLogoImg = logo;
@@ -74,18 +84,24 @@ __weak FlutterEasyLoginPlugin* __FlutterEasyLoginPlugin;
 
       loginSDK.appPrivacyTwo = @[@"用户自定义协议_移动专属",@"https://www.baidu.com"];
 
-      [[UniLogin shareInstance] loginWithViewControler:self appId:AppId secretKey:SecretKey complete:^(NSString * _Nullable mobile, NSString * _Nullable msg) {
+      [[UniLogin shareInstance] loginWithViewControler:self appId:self.appId secretKey:self.secretKey complete:^(NSString * _Nullable mobile, NSString * _Nullable msg) {
           NSString *decMobile = nil;
           //登录结果以json形式返回
           NSDictionary *loginData = nil;
-          if (mobile) {
-              NSLog(@"登录成功");
-             // decMobile = [self decryptWithStr:mobile];
-             loginData = @{@"login_result":@YES,@"login_data":@mobile};
-          }else {
-              NSLog(@"登录失败");
-              loginData = @{@"login_result":@NO,@"login_data":@msg};
-          }
+          if(){
+             NSLog(@"初始化失败");
+             loginData = @{@"login_result":@NO,@"login_data":@"初始化异常，请联系管理人员"};
+            }else{
+                if (mobile) {
+                          NSLog(@"登录成功");
+                         // decMobile = [self decryptWithStr:mobile];
+                         loginData = @{@"login_result":@YES,@"login_data":@mobile};
+                      }else {
+                          NSLog(@"登录失败");
+                          loginData = @{@"login_result":@NO,@"login_data":@msg};
+                      }
+                }
+
           //[self showResultData:decMobile msg:msg];
           result(loginData);
       }];

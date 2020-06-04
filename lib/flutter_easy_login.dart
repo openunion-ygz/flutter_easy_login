@@ -25,9 +25,14 @@ class FlutterEasyLogin {
 
   static FlutterEasyLogin get instance => _instance;
 
-  ///sdk初始化（手机权限申请）
-  void initSdk() {
-    _channel.invokeMethod('initSdk');
+  ///sdk初始化
+  /// android:手机权限申请
+  /// android ios 设置亿美平台相关参数信息，如： appid等
+  void initSdk(String appId,String secretKey) {
+    Map<String, dynamic> platformConfigMap = new Map();
+    platformConfigMap[Constants.PLATFORM_CONFIG_APPID] = appId;
+    platformConfigMap[Constants.PLATFORM_CONFIG_SECRET_KEY] = secretKey;
+    _channel.invokeMethod('initSdk',platformConfigMap);
   }
 
   ///UI页面配置

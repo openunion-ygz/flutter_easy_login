@@ -23,13 +23,17 @@ A new Flutter plugin.
   #s.ios.frameworks = 'CFNetwork','SystemConfiguration' 表示引入系统的frameworks
   #s.ios.libraries = 'stdc++','z' 引入系统库
   #s.preserve_paths = 'UPPay/*.a
-
   # 当使用依赖中央仓库的方式引入frameworks的方式找不到对应的头文件时，需要手动声明头文件，以不全头文件的路径
   #s.prefix_header_contents = '#import <WechatOpenSDK/WXApi.h>','#import <flutter_oupay/FlutterOupayPlugin.h>'
 
   s.ios.deployment_target = '8.0'
+
+  # 引入资源，比如图片
+  s.resource = ['Images/cafa_logo.png']
+  # 引入.bundle文件
+  s.resources = "SDK/ThirdPartyLibs/chinaTelecom/*.bundle","SDK/ThirdPartyLibs/cmcc/*.bundle",""
+
   #引入三方静态库
-  # frameworks 其他资源文件'SDK/ThirdPartyLibs/chinaTelecom/*.bundle','SDK/ThirdPartyLibs/cmcc/*.bundle'
   s.ios.vendored_frameworks = 'SDK/UniLogin.UniLogin.framework','SDK/ThirdPartyLibs/chinaunicom.OAuth.framework','SDK/ThirdPartyLibs/cmcc/TYRZSDK.framework','SDK/ThirdPartyLibs/chinaTelecom/EAccountHYSDK.framework'
   s.static_framework = true
 end

@@ -39,6 +39,8 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
     private LoginUiConfig mLoginUiConfig;
     private boolean isPermissionGrand = false;
     private boolean isLogin = false;
+    private String appId;
+    private String secretKey;
 
     /**
      * Plugin registration.
@@ -63,6 +65,8 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
         switch (call.method) {
 
             case "initSdk": {
+                appId = call.argument(Constants.APPID_KEY);
+                secretKey = call.argument(Constants.SECRET_KEY);
                 String version = UniSDK.getInstance().getVersion();
                 requestPermission();
                 result.success(null);
@@ -247,41 +251,48 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
 
     private void login(Result result) {
         Map<String,Object> resultMap = new HashMap<>();
-        UniSDK.getInstance().login(activity, Constants.APP_ID, Constants.SECRET_KEY, new LoginCallback() {
-            @Override
-            public void onSuccess(String s) {
-                Log.e(TAG, "===============================================");
-                Log.e("onSuccess ==>", s);
-                Log.e(TAG, "===============================================");
-                activity.runOnUiThread(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                resultMap.put(Constants.LOGIN_RESULT_KEY,"true");
-                                resultMap.put(Constants.LOGIN_DATA_KEY,s);
-                                String resultSuccess = JSON.toJSONString(resultMap);
-                                result.success(resultSuccess);
-                            }
-                        });
-            }
+        if (appId.isEmpty() || secretKey.isEmpty()){
+            resultMap.put(Constants.LOGIN_RESULT_KEY, "false");
+            resultMap.put(Constants.LOGIN_DATA_KEY, "初始化异常，请联系管理人员");
+            String resultFailed = JSON.toJSONString(resultMap);
+            result.success(resultFailed);
+        }else {
+            UniSDK.getInstance().login(activity, appId, secretKey, new LoginCallback() {
+                @Override
+                public void onSuccess(String s) {
+                    Log.e(TAG, "===============================================");
+                    Log.e("onSuccess ==>", s);
+                    Log.e(TAG, "===============================================");
+                    activity.runOnUiThread(
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    resultMap.put(Constants.LOGIN_RESULT_KEY, "true");
+                                    resultMap.put(Constants.LOGIN_DATA_KEY, s);
+                                    String resultSuccess = JSON.toJSONString(resultMap);
+                                    result.success(resultSuccess);
+                                }
+                            });
+                }
 
-            @Override
-            public void onFailed(String s) {
-                Log.e(TAG, "===============================================");
-                Log.e("onFailed ==>", s);
-                Log.e(TAG, "===============================================");
-                activity.runOnUiThread(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                resultMap.put(Constants.LOGIN_RESULT_KEY,"false");
-                                resultMap.put(Constants.LOGIN_DATA_KEY,s);
-                                String resultFailed = JSON.toJSONString(resultMap);
-                                result.success(resultFailed);
-                            }
-                        });
-            }
-        }, getLoginUiConfig(),false);
+                @Override
+                public void onFailed(String s) {
+                    Log.e(TAG, "===============================================");
+                    Log.e("onFailed ==>", s);
+                    Log.e(TAG, "===============================================");
+                    activity.runOnUiThread(
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    resultMap.put(Constants.LOGIN_RESULT_KEY, "false");
+                                    resultMap.put(Constants.LOGIN_DATA_KEY, s);
+                                    String resultFailed = JSON.toJSONString(resultMap);
+                                    result.success(resultFailed);
+                                }
+                            });
+                }
+            }, getLoginUiConfig(), false);
+        }
     }
 
     @Override
