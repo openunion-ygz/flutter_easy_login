@@ -10,6 +10,23 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  json_serializable: ^3.0.0
+
+targets:
+  $default:
+    builders:
+      json_serializable:
+        options:
+          # The default value for each is listed.
+          any_map: false
+          checked: false
+          create_factory: true
+          create_to_json: true
+          disallow_unrecognized_keys: false
+          explicit_to_json: false
+          field_rename: none
+          include_if_null: true
+          nullable: true
 
 dev_dependencies:
   flutter_test:

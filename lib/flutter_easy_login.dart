@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_easy_login/constants.dart';
+import 'package:flutter_easy_login/login_theme_config.dart';
 
 class FlutterEasyLogin {
   static const MethodChannel _channel =
@@ -44,6 +45,15 @@ class FlutterEasyLogin {
     uiConfigMap[Constants.UI_CONFIG_PROTOCOL_URL_KEY] = protocolUrl;
     return _channel
         .invokeMethod('setLoginUiConfig', uiConfigMap)
+        .then<bool>((isConfig) => isConfig);
+  }
+
+  ///UI页面配置
+  ///protocolText 自定义协议文案
+  ///protocolUrl  自定义协议url
+  Future<bool> setLoginThemeConfig(LoginThemeConfig loginThemeConfig) {
+    return _channel
+        .invokeMethod('setLoginUiConfig', loginThemeConfig.toJson())
         .then<bool>((isConfig) => isConfig);
   }
 

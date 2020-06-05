@@ -72,12 +72,18 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
                 result.success(null);
                 break;
             }
+            ///v3.1版本
             case "setLoginUiConfig": {
                 String protocolText = call.argument(Constants.PARAM_KEY_PROTOCOL_TEXT);
                 String protocolUrl = call.argument(Constants.PARAM_KEY_PROTOCOL_URL);
                 Log.e("protocolText===>", protocolText);
                 Log.e("protocolUrl===>", protocolUrl);
                 result.success(setLoginUiConfig(protocolText, protocolUrl));
+                break;
+            }
+            ///v4.0版本
+            case "setLoginThemeConfig": {
+                result.success(setLoginThemeConfig(call));
                 break;
             }
 
@@ -242,6 +248,10 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
 
         uiConfig.setDianXinLoginConfig(dianXinLoginConfig);
         mLoginUiConfig = uiConfig;
+        return true;
+    }
+
+    private boolean setLoginThemeConfig(MethodCall call){
         return true;
     }
 
