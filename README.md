@@ -81,17 +81,41 @@ A EasyLogin Flutter plugin.
 
     (4)默认的UI样式已经可以满足三大运营商的一键登录UI设计标准，因此如无特殊要求，使用默认UI样式即可；
 
-     (5)设置授权页面主题 Android 说明:
+    (5)设置授权页面logo(Android) 说明:
 
       需要在 Android 项目下 res/drawable 中添加相关的 png 图片资源 图片资源的名称与配置对应，如上面的显示logo配置 logoImgPath : 'cafa_logo', 对应
 
-      res/drawable/cafa_logo.png
+      res/drawable/cafa_logo.png,即logo的命名需要与setLoginUiConfig()中设置logo时传入的参数一致；
 
     (6)设置页面UI的方式：
 
-    FlutterEasyLogin.instance.setLoginUiConfig();
+    FlutterEasyLogin.instance.setLoginThemeConfig(LoginThemeConfig loginThemeConfig);
 
     该方法中，只需要传入参数自定义的UI样式即可
+
+    (7)自定义授权页面属性：
+
+    导航栏：
+    navCustom //导航栏是否隐藏
+    navColor //导航栏颜色
+    navText //导航栏文字
+    navReturnImgPath //导航栏返回图标icon路径
+
+    logo：
+    logoImgPath //logo路径
+    logoWidth //logo宽
+    logoHeight //logo高
+
+    登录按钮：
+    logBtnText //登录按钮文本
+    logBtnHeight //登录按钮高度(必须大于40)
+
+    协议：
+    appFPrivacyText //开发者隐私条款协议名称1
+    appFPrivacyUr //开发者隐私条款协议1 url
+    appSPrivacyText //开发者隐私条款协议名称2
+    appSPrivacyUrl //开发者隐私条款协议2 url
+    privacyColor //隐私条款协议颜色
 
     3.登录方法：
 
@@ -123,7 +147,9 @@ A EasyLogin Flutter plugin.
 
     无法登陆成功，会出现“应用包名与签名信息不符”问题，因此，使用时需要根据包名另外创建新的flutter工程，再引用本插件;
 
-    2.关于登录页面的logo图片设置：目前，修改logo，只能通过修改插件本地资源文件的形式，即：若需要修改logo，则需要提供对应的logo图片资源，同时修改插件。
+    2.关于登录页面的logo图片设置：修改logo，通过在主工程下的Android或者ios目录中分别放入需要设置的logo图片，同时，通过setLoginUiConfig
+
+    方法设置与logo相同命名的属性即可
 
 ##=========================================================================================
 
