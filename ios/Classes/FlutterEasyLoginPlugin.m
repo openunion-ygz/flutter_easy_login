@@ -35,7 +35,13 @@ UIColor *hexColor(long hex) {
     long green = (hex & 0x00ff00) >> 8;
     long blue = (hex & 0x0000ff) >> 0;
     return [UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:1.0];
-};
+}
+
+NSInteger *colorToHex(UIColor color){
+    CGFloat r,g,b,a;
+    [color getRed:&r green:&g blue:&b alpha:&a];
+    return (int)(r*255)<<16 | (int)(g*255)<<8 | (int)(b*255);
+}
 
 BOOL isExistKeyValue(NSDictionary* dict, NSString* key ) {
     if(![dict objectForKey:key]){
@@ -165,8 +171,48 @@ BOOL isExistKeyValue(NSDictionary* dict, NSString* key ) {
 UACustomModel *model = [UACustomModel new];
 model.currentVC = self;
 //默认使用亿美默认主题
-BOOL useDefaultTheme = isExistKeyValue(themeConfigDict,@"useDefaultTheme") ? [[modeParam objectForKey:@"useDefaultTheme"] boolValue]: YES;
-NSString *
+//是否使用默认主题
+BOOL useDefaultTheme = isExistKeyValue(themeConfigDict,@"useDefaultTheme") ? [[themeConfigDict objectForKey:@"useDefaultTheme"] boolValue]: YES;
+
+//导航栏背景色
+long navColor = isExistKeyValue(themeConfigDict,@"navColor")  ? [[themeConfigDict objectForKey:@"navColor"] longValue]: colorToHex([UIColor redColor]);
+//导航栏标题
+NSString navText = isExistKeyValue(themeConfigDict,@"navText") ? [themeConfigDict objectForKey:@"navText"] : @"统一认证登录";
+//导航栏标题颜色
+long navTextColor = isExistKeyValue(themeConfigDict,@"navTextColor")  ? [[themeConfigDict objectForKey:@"navTextColor"] longValue]: colorToHex([UIColor blackColor]) ;
+//导航栏返回按钮图片路径
+NSSString navReturnImgPath = isExistKeyValue(themeConfigDict,@"navReturnImgPath") ? [themeConfigDict objectForKey:@"navReturnImgPath"] : @"";
+//是否隐藏导航栏（默认显示）
+BOOL authNavTransparent = isExistKeyValue(themeConfigDict,@"useDefaultTheme") ? [[themeConfigDict objectForKey:@"useDefaultTheme"] boolValue]: NO;
+
+//logo图片路径
+NSString logoImgPath = isExistKeyValue(themeConfigDict,@"logoImgPath") ? [themeConfigDict objectForKey:@"logoImgPath"] : @"";
+//logo图片宽度
+int logoWidth =  isExistKeyValue(themeConfigDict,@"logoWidth")  ? [[themeConfigDict objectForKey:@"logoWidth"] intValue]: 300);
+//logo图片高度
+int logoHeight =  isExistKeyValue(themeConfigDict,@"logoHeight")  ? [[themeConfigDict objectForKey:@"logoHeight"] intValue]: 300);
+
+//登录按钮文案
+NSString logBtnText = isExistKeyValue(themeConfigDict,@"logBtnText") ? [themeConfigDict objectForKey:@"logBtnText"] : @"本机号码一键登录";
+//登录按钮文案颜色
+long logBtnTextColor = isExistKeyValue(themeConfigDict,@"logBtnTextColor")  ? [[themeConfigDict objectForKey:@"logBtnTextColor"] longValue]: colorToHex([UIColor orangeColor]);
+//登录按钮背景图片路径
+NSString logBtnImgPath = isExistKeyValue(themeConfigDict,@"logBtnImgPath") ? [themeConfigDict objectForKey:@"logBtnImgPath"] : @"";
+
+//用户自定义协议1标题
+NSString clauseOneName = isExistKeyValue(themeConfigDict,@"clauseOneName") ? [themeConfigDict objectForKey:@"clauseOneName"] : @"开联用户协议1";
+//用户自定义协议1对应的url
+NSString clauseOneUrl = isExistKeyValue(themeConfigDict,@"clauseOneUrl") ? [themeConfigDict objectForKey:@"clauseOneUrl"] : @"https://www.baidu.com";
+//用户自定义协议2标题
+NSString clauseTwoName = isExistKeyValue(themeConfigDict,@"clauseTwoName") ? [themeConfigDict objectForKey:@"clauseTwoName"] : @"开联用户协议2";
+//用户自定义协议2对应的url
+NSString clauseTwoUrl = isExistKeyValue(themeConfigDict,@"clauseTwoUrl") ? [themeConfigDict objectForKey:@"clauseTwoUrl"] : @"https://www.baidu.com";
+//协议字体颜色
+long clauseColorBase = isExistKeyValue(themeConfigDict,@"clauseColorBase")  ? [[themeConfigDict objectForKey:@"clauseColorBase"] longValue]: colorToHex([UIColor blackColor]);
+//自定义协议字体颜色
+long clauseColorAgree = isExistKeyValue(themeConfigDict,@"clauseColorAgree")  ? [[themeConfigDict objectForKey:@"clauseColorAgree"] longValue]: colorToHex([UIColor blackColor]);
+
+
  // 是否开启自定义属性设置 appPrivacyAlignment 0 --使用默认 1--自定义
  model.appPrivacyAlignment = 0;
 if(!useDefaultTheme){
@@ -185,50 +231,50 @@ if(!useDefaultTheme){
          //4、设置授权界面背景图片
      //    model.authPageBackgroundImage = [UIImage imageNamed:@"timg"];
 
-         #pragma mark 导航栏
+         //*****************导航栏**********************
          //5、导航栏颜色
-         model.navColor = [UIColor redColor];
+         model.navColor = hexColor(navColor);
          //6、状态栏着色样式0为黑色,1为白色
          model.barStyle = 1;
          //7、状态栏着色样式(隐藏导航栏时有效)*/
          model.statusBarStyle = 1;
          //8、导航栏标题颜色和字体修改  属性:你好  黄色
-         model.navText = [[NSAttributedString alloc]initWithString:@"你好" attributes:@{NSForegroundColorAttributeName:[UIColor yellowColor]}];
+         model.navText = [[NSAttributedString alloc]initWithString:@navText attributes:@{NSForegroundColorAttributeName:hexColor(navTextColor)}];
          //9、导航栏
-         model.navReturnImg = [UIImage imageNamed:@"checkOn"];
+         model.navReturnImg = [UIImage imageNamed:@navReturnImgPath];
          //10、自定义导航栏开关(隐藏导航栏)--测试时留到最后设置
-         model.navCustom = YES;
+         model.navCustom = authNavTransparent;
          //11、右键按钮--
          model.navControl = [[UIBarButtonItem alloc]initWithTitle:@"授权右键" style:(UIBarButtonItemStyleDone) target:self action:@selector(rightButtonItemAction)];
 
-         #pragma mark LOGO图片设置
+         //***************** LOGO图片设置******************
          //12、logo图片
-         model.logoImg = [UIImage imageNamed:@"checkOn"];
+         model.logoImg = [UIImage imageNamed:@logoImgPath];
          //13、Logo宽度设置
-         model.logoWidth = 300;
+         model.logoWidth = logoWidth;
          //14、Logo的高度设置
-         model.logoHeight = 300;
+         model.logoHeight = logoHeight;
          //15、Logo偏移量Y
          model.logoOffsetY = @50;
          //16、Logo隐藏开关
          model.logoHidden = YES;
          //17、登录按钮修改
 
-         #pragma mark 登录按钮
-         model.logBtnText = [[NSAttributedString alloc]initWithString:@"自定义登录按钮" attributes:@{NSForegroundColorAttributeName:[UIColor orangeColor]}];
+         //***************** 登录按钮*******************
+         model.logBtnText = [[NSAttributedString alloc]initWithString:@logBtnText attributes:@{NSForegroundColorAttributeName:hexColor(logBtnTextColor)}];
          //18、按钮偏移量Y
          model.logBtnOffsetY = @150;
          //19、按钮距离屏幕左右边距
          model.logBtnOriginX = @150;
          //20、登录按钮的高h
-         model.logBtnHeight = 5;
+         model.logBtnHeight = 50;
          //21、授权界面登录按钮
          UIImage *norMal = [UIImage imageNamed:@"timg"];
          UIImage *invalied = [UIImage imageNamed:@"WechatIMG16"];
          UIImage *highted = [UIImage imageNamed:@"checkOn"];
          model.logBtnImgs = @[norMal,invalied,highted];
 
-         #pragma mark 号码框设置
+         //******************** 号码框设置*****************
          //22、号码栏字体大小
          model.numberText = [[NSAttributedString alloc]initWithString:@"sfdsfd" attributes:@{NSForegroundColorAttributeName:UIColor.orangeColor,NSFontAttributeName:[UIFont systemFontOfSize:30]}];
          //23、号码栏X偏移量
@@ -242,7 +288,7 @@ if(!useDefaultTheme){
          //27、切换账号偏移量
          model.switchOffsetY = @30;
          //28、隐私条款uncheckedImg选中图片
-         #pragma mark 隐私条款
+         //******************* 隐私条款***************
          model.uncheckedImg = [UIImage imageNamed:@"checkOn"];
          //29、隐私条款chexBox选中图片
          model.checkedImg = [UIImage imageNamed:@"timg.jpg"];
@@ -251,21 +297,28 @@ if(!useDefaultTheme){
          //*31、隐私条款（包括check框）的左右边距*/
          model.appPrivacyOriginX = @80;
          //32、隐私的内容模板
-         model.appPrivacyDemo = [[NSAttributedString alloc]initWithString:@"登录&&默认&&本界面并同意授权hdhhhhdhddh腾讯协议和百度协议、进行本机号码登录" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:30] ,NSForegroundColorAttributeName:UIColor.orangeColor}];
-         NSAttributedString *str1 = [[NSAttributedString alloc]initWithString:@"腾讯协议" attributes:@{NSLinkAttributeName:@"https://www.qq.com"}];
-         NSAttributedString *str2 = [[NSAttributedString alloc]initWithString:@"百度协议" attributes:@{NSLinkAttributeName:@"https://www.baidu.com"}];
+         NSMutableString *demo = [NSMutableString string];
+             [demo appendString:@"登录&&默认&&本界面并同意授权hdhhhhdhddh"];
+             [demo appendString:@clauseOneName];
+             [demo appendString:@" "];
+             [demo appendString:@clauseTwoName];
+             [demo appendString:@" "];
+             [demo appendString:@"进行本机号码登录"];
+         model.appPrivacyDemo = [[NSAttributedString alloc]initWithString:@demo attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:30] ,NSForegroundColorAttributeName:UIColor.orangeColor}];
+         NSAttributedString *str1 = [[NSAttributedString alloc]initWithString:@clauseOneName attributes:@{NSLinkAttributeName:@clauseOneUrl}];
+         NSAttributedString *str2 = [[NSAttributedString alloc]initWithString:@clauseTwoName attributes:@{NSLinkAttributeName:@clauseTwoUrl}];
          //33、隐私条款文字内容的方向:默认是居左
          model.appPrivacyAlignment = NSTextAlignmentLeft;
          //34、隐私条款:数组对象
          model.appPrivacy = @[str1,str2];
          //35、隐私条款名称颜色（协议）
-         model.privacyColor = [UIColor blackColor];
+         model.privacyColor = hexColor(clauseColorBase);
          //36、隐私条款偏移量
          model.privacyOffsetY = [NSNumber numberWithFloat:(100/2)];
          //37、隐私条款check框默认状态
          model.privacyState = YES;
 
-         #pragma mark 底部标识Title
+         //******************* 底部标识Title***************
          //38、
          model.privacySymbol = YES;
          //39、slogan偏移量
@@ -276,11 +329,27 @@ return model;
 }
 //联通model设置
 (ZOAUCustomModel *)createCUCCModel:(NSDictionary)themeConfigDict{
-ZOAUCustomModel *mAuthPage = [[ZOAUCustomModel alloc]init];
+/logo图片路径
+NSString logoImgPath = isExistKeyValue(themeConfigDict,@"logoImgPath") ? [themeConfigDict objectForKey:@"logoImgPath"] : @"";
+//logo图片宽度
+int logoWidth =  isExistKeyValue(themeConfigDict,@"logoWidth")  ? [[themeConfigDict objectForKey:@"logoWidth"] intValue]: 70);
+//logo图片高度
+int logoHeight =  isExistKeyValue(themeConfigDict,@"logoHeight")  ? [[themeConfigDict objectForKey:@"logoHeight"] intValue]: 70);
+
+//用户自定义协议1标题
+NSString clauseOneName = isExistKeyValue(themeConfigDict,@"clauseOneName") ? [themeConfigDict objectForKey:@"clauseOneName"] : @"开联用户协议1";
+//用户自定义协议1对应的url
+NSString clauseOneUrl = isExistKeyValue(themeConfigDict,@"clauseOneUrl") ? [themeConfigDict objectForKey:@"clauseOneUrl"] : @"https://www.baidu.com";
+
+
+        ZOAUCustomModel *mAuthPage = [[ZOAUCustomModel alloc]init];
+        mAuthPage.logoImg = [UIImage imageNamed:@logoImgPath];
+        mAuthPage.logoWidth = logoWidth;
+        mAuthPage.logoHeight = logoHeight;
 
         mAuthPage.checkBoxValue = YES;
         mAuthPage.ifStopListeningAuthPageClosed = 0;
-        NSArray *cuccAppPrivacy = @[@"用户自定义协议",@"https://www.baidu.com"];
+        NSArray *cuccAppPrivacy = @[@clauseOneName,@clauseOneUrl];
         NSString *text = [cuccAppPrivacy firstObject];
         NSString *url = [cuccAppPrivacy lastObject];
         mAuthPage.appFPrivacyText = text;
@@ -302,6 +371,50 @@ return mAuthPage;
 (EAccountOpenPageConfig *)createCTCCModel:(NSDictionary)themeConfigDict{
  EAccountOpenPageConfig *config = [[EAccountOpenPageConfig alloc] init];
   config.nibNameOfLoginVC = @"EAccountAuthVC_dynamic";
+
+  //默认使用亿美默认主题
+  //是否使用默认主题
+  BOOL useDefaultTheme = isExistKeyValue(themeConfigDict,@"useDefaultTheme") ? [[themeConfigDict objectForKey:@"useDefaultTheme"] boolValue]: YES;
+
+  //导航栏背景色
+  long navColor = isExistKeyValue(themeConfigDict,@"navColor")  ? [[themeConfigDict objectForKey:@"navColor"] longValue]: colorToHex([UIColor redColor]);
+  //导航栏标题
+  NSString navText = isExistKeyValue(themeConfigDict,@"navText") ? [themeConfigDict objectForKey:@"navText"] : @"统一认证登录";
+  //导航栏标题颜色
+  long navTextColor = isExistKeyValue(themeConfigDict,@"navTextColor")  ? [[themeConfigDict objectForKey:@"navTextColor"] longValue]: colorToHex([UIColor blackColor]) ;
+  //导航栏返回按钮图片路径
+  NSSString navReturnImgPath = isExistKeyValue(themeConfigDict,@"navReturnImgPath") ? [themeConfigDict objectForKey:@"navReturnImgPath"] : @"";
+  //是否隐藏导航栏（默认显示）
+  BOOL authNavTransparent = isExistKeyValue(themeConfigDict,@"useDefaultTheme") ? [[themeConfigDict objectForKey:@"useDefaultTheme"] boolValue]: NO;
+
+  //logo图片路径
+  NSString logoImgPath = isExistKeyValue(themeConfigDict,@"logoImgPath") ? [themeConfigDict objectForKey:@"logoImgPath"] : @"";
+  //logo图片宽度
+  int logoWidth =  isExistKeyValue(themeConfigDict,@"logoWidth")  ? [[themeConfigDict objectForKey:@"logoWidth"] intValue]: 300);
+  //logo图片高度
+  int logoHeight =  isExistKeyValue(themeConfigDict,@"logoHeight")  ? [[themeConfigDict objectForKey:@"logoHeight"] intValue]: 300);
+
+  //登录按钮文案
+  NSString logBtnText = isExistKeyValue(themeConfigDict,@"logBtnText") ? [themeConfigDict objectForKey:@"logBtnText"] : @"本机号码一键登录";
+  //登录按钮文案颜色
+  long logBtnTextColor = isExistKeyValue(themeConfigDict,@"logBtnTextColor")  ? [[themeConfigDict objectForKey:@"logBtnTextColor"] longValue]: colorToHex([UIColor orangeColor]);
+  //登录按钮背景图片路径
+  NSString logBtnImgPath = isExistKeyValue(themeConfigDict,@"logBtnImgPath") ? [themeConfigDict objectForKey:@"logBtnImgPath"] : @"";
+
+  //用户自定义协议1标题
+  NSString clauseOneName = isExistKeyValue(themeConfigDict,@"clauseOneName") ? [themeConfigDict objectForKey:@"clauseOneName"] : @"开联用户协议1";
+  //用户自定义协议1对应的url
+  NSString clauseOneUrl = isExistKeyValue(themeConfigDict,@"clauseOneUrl") ? [themeConfigDict objectForKey:@"clauseOneUrl"] : @"https://www.baidu.com";
+  //用户自定义协议2标题
+  NSString clauseTwoName = isExistKeyValue(themeConfigDict,@"clauseTwoName") ? [themeConfigDict objectForKey:@"clauseTwoName"] : @"开联用户协议2";
+  //用户自定义协议2对应的url
+  NSString clauseTwoUrl = isExistKeyValue(themeConfigDict,@"clauseTwoUrl") ? [themeConfigDict objectForKey:@"clauseTwoUrl"] : @"https://www.baidu.com";
+  //协议字体颜色
+  long clauseColorBase = isExistKeyValue(themeConfigDict,@"clauseColorBase")  ? [[themeConfigDict objectForKey:@"clauseColorBase"] longValue]: colorToHex([UIColor blackColor]);
+  //自定义协议字体颜色
+  long clauseColorAgree = isExistKeyValue(themeConfigDict,@"clauseColorAgree")  ? [[themeConfigDict objectForKey:@"clauseColorAgree"] longValue]: colorToHex([UIColor blackColor]);
+
+
     // 设置电信授权页面弹出消失动画
       EACustomAnimatedTransitioning *obj = [[EACustomAnimatedTransitioning alloc] init];
       obj.targetEdge = UIRectEdgeNone;
@@ -314,21 +427,21 @@ return mAuthPage;
           //    config.EAccountBundleName = @"EAccountOpenPageResource";
 
               /*===========================================导航栏配置示例===========================================*/
-          //    config.navColor = [UIColor greenColor];
-          ////        config.barStyle = UIBarStyleBlack;
-          //    config.navLineColor = [UIColor purpleColor];
-          //    config.navText = @"测试标题";
-          //    config.navTextSize = 28;
-          //    config.navTextColor = [UIColor redColor];
-          //    config.navGoBackImg_normal = [self readImageByNameFromBundle:@"logo_mini"];
-          //    config.navGoBackImg_highlighted = [EAccountOPSDataConfig readImageByNameFromBundle:@"logo_mini"];
+              config.navColor = hexColor(navColor);
+              config.barStyle = UIBarStyleBlack;
+              config.navLineColor = [UIColor purpleColor];
+              config.navText = @navText;
+              config.navTextSize = 28;
+              config.navTextColor = hexColor(navTextColor);
+              //config.navGoBackImg_normal = [self readImageByNameFromBundle:@"logo_mini"];
+              //config.navGoBackImg_highlighted = [EAccountOPSDataConfig readImageByNameFromBundle:@"logo_mini"];
 
               /*===========================================logo配置示例===========================================*/
-          //    config.logoImg = [self readImageByNameFromBundle:@"189m"];
-          //    config.logoOffsetY = 200;
-          //    config.logoHidden = NO;
-          //    config.logoWidth = 30;
-          //    config.logoHeight = 40;
+              config.logoImg = [UIImage imageNamed:@logoImgPath];
+              config.logoOffsetY = 200;
+              config.logoHidden = NO;
+              config.logoWidth = logoWidth;
+              config.logoHeight = logoHeight;
 
               /*===========================================手机号标签配置示例========================================*/
           //    config.numberColor = [UIColor redColor];
@@ -336,20 +449,20 @@ return mAuthPage;
           //    config.numFieldOffsetY = 100;
 
               /*===========================================中部小logo及标签配置示例======================================*/
-          //    config.brandLabelOffsetY = 250;
-          //    config.brandLabelTextColor = [UIColor blueColor];
-          //    config.brandLabelTextSize = 16;
+              config.brandLabelOffsetY = 250;
+              config.brandLabelTextColor = [UIColor blueColor];
+              config.brandLabelTextSize = 16;
 
               /*===========================================登录按钮配置示例=============================================*/
-          //    config.logBtnText = @"按一下";
-          //    config.logBtnOffsetY = 120;
-          //    config.logBtnTextColor = [UIColor yellowColor];
-          //    config.logBtnWidth = 200;
-          //    config.logBtnHeight = 30;
-          //    config.logBtnTextSize = 12;
+              config.logBtnText = @logBtnText;
+              config.logBtnOffsetY = 120;
+              config.logBtnTextColor = hexColor(logBtnTextColor);
+              config.logBtnWidth = 200;
+              config.logBtnHeight = 30;
+              config.logBtnTextSize = 12;
           ////        config.logBtnBackground = EACCOUNT_LOGINBUTTON_BACKGROUND_COLOR;
           //    config.logBtnBackground = EACCOUNT_LOGINBUTTON_BACKGROUND_IMAGES;
-          //    config.logBtnCornerRadius = 10;
+              config.logBtnCornerRadius = 10;
           //    config.logBtnBgColor_normal = [UIColor redColor];
           //    config.logBtnBgColor_disable = [UIColor greenColor];
           //    config.logBtnBgColor_highlighted = [UIColor blueColor];
@@ -427,12 +540,16 @@ return mAuthPage;
                */
               config.PALabelText = @"登录即同意$OAT与$CAT并授权[应用名]获取本机号码";
               config.PALabelOtherTextColor = [UIColor purpleColor];
-              config.PANameColor = [UIColor redColor];
-              config.partnerPANameColor = [UIColor greenColor];//v3.7.2新增 单独配置合作方协议名称的颜色
-              config.partnerPAName = @"《合作方自定义协议》";//v3.7.2新增 合作方协议的名称
-              config.webNavText = @"服务与隐私协议";
-              config.PAUrl = @"http://www.baidu.com";
-              config.pWebNavText = @"自定义协议在右";
+              config.PANameColor = hexColor(clauseColorBase);
+              config.partnerPANameColor = hexColor(clauseColorAgree);//v3.7.2新增 单独配置合作方协议名称的颜色
+              NSMutableString partnerPAName = [NSMutableString string];
+                  [demo appendString:@"《"];
+                  [demo appendString:@clauseOneName];
+                  [demo appendString:@"》"];
+              config.partnerPAName = @partnerPAName;//v3.7.2新增 合作方协议的名称
+              config.webNavText = @clauseOneName;
+              config.PAUrl = @clauseOneUrl;
+             // config.pWebNavText = @"自定义协议在右";
 
               // 6、合作方《自定义协议》在左，并调用v3.7.2接口方法：
           //    config.PALabelText = @"登录即同意$CAT与$OAT并授权[应用名]获取本机号码";
@@ -508,14 +625,14 @@ return mAuthPage;
                *$CAT 为自定义协议标题占位符，SDK程序会替换为自定义标题字段的值；
                *[应用名] ：修改为您应用的名称
                */
-              config.dialogPALabelText = @"登录即同意$OAT与$CAT";
-              config.dialogPAOtherTextColor = [UIColor purpleColor];
-              config.dialogPANameColor = [UIColor redColor];
-              config.dialogPartnerPANameColor = [UIColor greenColor];//v3.7.2新增 单独配置合作方协议名称的颜色
-              config.partnerPAName = @"《合作方自定义协议》";//v3.7.2新增 合作方协议的名称
-              config.webNavText = @"服务与隐私协议";
-              config.PAUrl = @"http://www.baidu.com";
-              config.pWebNavText = @"自定义协议在右";
+             // config.dialogPALabelText = @"登录即同意$OAT与$CAT";
+             // config.dialogPAOtherTextColor = [UIColor purpleColor];
+             // config.dialogPANameColor = [UIColor redColor];
+             // config.dialogPartnerPANameColor = [UIColor greenColor];//v3.7.2新增 单独配置合作方协议名称的颜色
+             // config.partnerPAName = @"《合作方自定义协议》";//v3.7.2新增 合作方协议的名称
+             // config.webNavText = @"服务与隐私协议";
+             // config.PAUrl = @"http://www.baidu.com";
+             // config.pWebNavText = @"自定义协议在右";
 
               // 6、合作方《自定义协议》在左，并调用v3.7.2接口方法：
           //    config.dialogPALabelText = @"登录即同意$CAT与$OAT";

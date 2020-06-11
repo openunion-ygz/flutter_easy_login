@@ -32,14 +32,14 @@ class LoginThemeConfig{
 
   LoginThemeConfig({
     bool useDefaultTheme:true,
-    int navColor : -16742704,
+    int navColor,
     String navText : "统一认证登录",
     int navTextColor : -1,
     String navReturnImgPath,
     bool authNavTransparent : false,
-    String logoImgPath : "cafa_logo",
-    int logoWidth : 70,
-    int logoHeight : 70,
+    String logoImgPath,
+    int logoWidth ,
+    int logoHeight,
     String logBtnText : "本机号码一键登录",
     int logBtnTextColor : -1,
     String logBtnImgPath ,
@@ -47,8 +47,8 @@ class LoginThemeConfig{
     String clauseOneUrl,
     String clauseTwoName,
     String clauseTwoUrl,
-    int clauseColorBase : -10066330,
-    int clauseColorAgree : -16007674,
+    int clauseColorBase,
+    int clauseColorAgree,
   }){
     this.useDefaultTheme =      useDefaultTheme;
     this.navColor=              navColor;
