@@ -5,6 +5,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_easy_login/flutter_easy_login.dart';
+import 'package:flutter_easy_login/login_theme_config.dart';
 
 void main() => runApp(MyApp());
 
@@ -57,8 +58,10 @@ class _MyAppState extends State<MyApp> {
             children: <Widget>[
               RaisedButton(child: Text('亿美一键登录初始化'),
                   onPressed: (){
-                    FlutterEasyLogin.instance.initSdk();
+                    FlutterEasyLogin.instance.initSdk("f5b044a76b2341daa27b656e5e69ce22","92eec5356dda4216");
                     FlutterEasyLogin.instance.setLoginUiConfig('开联自定义协议', 'http://www.baidu.com');
+                    LoginThemeConfig themeConfig = new LoginThemeConfig(useDefaultTheme: true,navText: "一键登录");
+                    FlutterEasyLogin.instance.setLoginThemeConfig(themeConfig);
                   }),
               RaisedButton(child: Text('亿美一键登录测试'),
                 onPressed: (){

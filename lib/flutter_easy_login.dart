@@ -49,11 +49,10 @@ class FlutterEasyLogin {
   }
 
   ///UI页面配置
-  ///protocolText 自定义协议文案
-  ///protocolUrl  自定义协议url
+  ///loginThemeConfig 自定义协议文案配置
   Future<bool> setLoginThemeConfig(LoginThemeConfig loginThemeConfig) {
     return _channel
-        .invokeMethod('setLoginUiConfig', loginThemeConfig.toJson())
+        .invokeMethod('setLoginThemeConfig', loginThemeConfig.toJson())
         .then<bool>((isConfig) => isConfig);
   }
 
