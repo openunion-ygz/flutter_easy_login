@@ -273,7 +273,7 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
         // 1、$OAT 为运营商协议标题占位符，SDK程序默认替换为《天翼账号服务与隐私协议》，若有其它运营商协议配置需求，可添加配置；
         // 2、$CAT 为自定义协议标题占位符，SDK程序会替换为自定义标题字段的值；
         // 3、[应用名] ：修改为您应用的名称
-        dianXinLoginConfig.setPrivacyText("登录即同意$OAT与$CAT并授权[本demo]获取本机号码");
+        dianXinLoginConfig.setPrivacyText("登录即同意$OAT与$CAT并授权"+getAppName()+"获取本机号码");
         dianXinLoginConfig.setPrivacyTextSize(12);//隐私协议文本的字体大小
         dianXinLoginConfig.setOperatorAgreementTitleColor(0xFF0090FF);//运营商协议标题的字体颜色
         //弹窗登录设置弹窗大小，单位为px
@@ -431,6 +431,18 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
         uiConfig.setDianXinLoginConfig(dianXinLoginConfig);
         mLoginUiConfig = uiConfig;
         return true;
+    }
+    private String getAppName(){
+        String appName = "当前应用";
+        if (activity.getApplicationContext() != null){
+            try {
+                PackageManager packageManager = activity.getApplicationContext().getPackageManager();
+                appName = String.valueOf(packageManager.getApplicationLabel(activity.getApplicationContext().getApplicationInfo()));
+            } catch (Throwable e) {
+                Log.i(TAG,"getAppName >> e:" + e.toString());
+            }
+        }
+        return appName;
     }
 
     private LoginUiConfig getLoginUiConfig() {
