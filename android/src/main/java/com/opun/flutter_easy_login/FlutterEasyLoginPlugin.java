@@ -3,15 +3,11 @@ package com.opun.flutter_easy_login;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
-
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import com.alibaba.fastjson.JSON;
-
 import java.util.HashMap;
 import java.util.Map;
 
