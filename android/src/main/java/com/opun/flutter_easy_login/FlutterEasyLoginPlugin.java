@@ -251,6 +251,7 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
         yidongConfig.setLogBtnSize(15);
         yidongConfig.setLogBtnOffsetY(254);//登录按钮Y偏移量
 
+        yidongConfig.setSwitchAccTex("其他登录方式");
         yidongConfig.setSwitchAccTextColor(0xff329af3);//切换账号字体颜色
         yidongConfig.setShowOtherLogin(false);//切换账号是否隐藏
         yidongConfig.setSwitchAccTextSize(14);//切换账号字体大小
@@ -310,7 +311,7 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
             //注意，当setShowProtocolBox = false时，只能通过代码来设置按钮文字
             lianTongLoginConfig.setLoginButtonText("快捷登录");//按钮文字内容
             lianTongLoginConfig.setProtocolUrl("https://www.baidu.com");
-            lianTongLoginConfig.setShowOtherLogin(true);
+            lianTongLoginConfig.setShowOtherLogin(false);
 
             dianXinLoginConfig.setPrivacyTextColor(0xFF000000);//隐私协议文本的字体颜色
             dianXinLoginConfig.setCustomAgreementTitle("《我的自定义协议》");//自定义协议标题
@@ -433,12 +434,12 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
                 yidongConfig.setPrivacyTextColor2(0xff0085d0);//条款颜色
                 dianXinLoginConfig.setCustomAgreementTitleColor(0xFF0090FF);//自定义协议标题的字体颜色
             }
-            boolean showOtherWayLogin = true;
+            boolean showOtherWayLogin = false;
             if (call.argument("otherWayLogin") != null) {
                 showOtherWayLogin = call.argument("otherWayLogin");
             }
-            yidongConfig.setShowOtherLogin(showOtherWayLogin);
-            lianTongLoginConfig.setShowOtherLogin(showOtherWayLogin);
+            yidongConfig.setShowOtherLogin(!showOtherWayLogin);
+            lianTongLoginConfig.setShowOtherLogin(!showOtherWayLogin);
         }
         uiConfig.setYiDongLoginConfig(yidongConfig);
         uiConfig.setLianTongLoginConfig(lianTongLoginConfig);
@@ -504,7 +505,7 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
                         if (errorData.equals("用户取消登录")) {
                             errorData = Constants.USER_CANCEL_STATE;
                         }
-                        if (errorData.equals("")) {
+                        if (errorData.equals("第三方登录方式")) {
                             errorData = Constants.OTHER_WAY_LOGIN;
                         }
 
@@ -514,7 +515,7 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
                         if (errorData.equals("用户取消登录")) {
                             errorData = Constants.USER_CANCEL_STATE;
                         }
-                        if (errorData.equals("")) {
+                        if (errorData.equals("其他方式登录")) {
                             errorData = Constants.OTHER_WAY_LOGIN;
                         }
 
