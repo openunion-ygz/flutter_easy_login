@@ -61,9 +61,7 @@ class FlutterEasyLogin {
   Future<String> login() {
     return _channel
         .invokeMethod('login')
-        .then<String>((loginResult){
-          return handleUserCancelAndOtherWayLogin(loginResult);
-    });
+        .then<String>((loginResult) => loginResult);
   }
 //统一处理用户取消登录及“其他登录方式”的回调
   String handleUserCancelAndOtherWayLogin(String loginResult){

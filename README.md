@@ -167,6 +167,15 @@ A EasyLogin Flutter plugin.
 
         最后，在login()回调方法中，对应的标识为：Constants.OTHER_WAY_LOGIN
 
+        6.关于是否显示“其他登录方式”的说明：
+
+        联通-->需要在引入的xml文件中动态修改隐藏及显示
+
+        电信-->电信运营商规定必须显示
+
+        移动-->可通过setLoginThemeConfig()方法进行设置
+
+
 ## 四、注意事项：
 
     1.由于Flutter插件开发的需要，本插件中的example/android工程的包名并不是亿美一键登录后台的对应的包名，因此在运行example/android项目时，
