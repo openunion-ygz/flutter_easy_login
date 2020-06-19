@@ -311,7 +311,7 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
             //注意，当setShowProtocolBox = false时，只能通过代码来设置按钮文字
             lianTongLoginConfig.setLoginButtonText("快捷登录");//按钮文字内容
             lianTongLoginConfig.setProtocolUrl("https://www.baidu.com");
-            lianTongLoginConfig.setShowOtherLogin(false);
+            lianTongLoginConfig.setShowOtherLogin(true);
 
             dianXinLoginConfig.setPrivacyTextColor(0xFF000000);//隐私协议文本的字体颜色
             dianXinLoginConfig.setCustomAgreementTitle("《我的自定义协议》");//自定义协议标题
@@ -439,7 +439,7 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
                 showOtherWayLogin = call.argument("otherWayLogin");
             }
             yidongConfig.setShowOtherLogin(!showOtherWayLogin);
-            lianTongLoginConfig.setShowOtherLogin(!showOtherWayLogin);
+            lianTongLoginConfig.setShowOtherLogin(showOtherWayLogin);
         }
         uiConfig.setYiDongLoginConfig(yidongConfig);
         uiConfig.setLianTongLoginConfig(lianTongLoginConfig);

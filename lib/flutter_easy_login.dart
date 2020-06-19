@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
@@ -30,11 +31,13 @@ class FlutterEasyLogin {
   ///sdk初始化
   /// android:手机权限申请
   /// android ios 设置亿美平台相关参数信息，如： appid等
-  void initSdk(String appId,String secretKey) {
-    Map<String, dynamic> platformConfigMap = new Map();
-    platformConfigMap[Constants.PLATFORM_CONFIG_APPID] = appId;
-    platformConfigMap[Constants.PLATFORM_CONFIG_SECRET_KEY] = secretKey;
-    _channel.invokeMethod('initSdk',platformConfigMap);
+  void initSdk(String appId, String secretKey) {
+    if (Platform.isAndroid) {
+      Map<String, dynamic> platformConfigMap = new Map();
+      platformConfigMap[Constants.PLATFORM_CONFIG_APPID] = appId;
+      platformConfigMap[Constants.PLATFORM_CONFIG_SECRET_KEY] = secretKey;
+      _channel.invokeMethod('initSdk', platformConfigMap);
+    }
   }
 
   ///UI页面配置
@@ -44,35 +47,60 @@ class FlutterEasyLogin {
     Map<String, dynamic> uiConfigMap = new Map();
     uiConfigMap[Constants.UI_CONFIG_PROTOCOL_TEXT_KEY] = protocolText;
     uiConfigMap[Constants.UI_CONFIG_PROTOCOL_URL_KEY] = protocolUrl;
-    return _channel
-        .invokeMethod('setLoginUiConfig', uiConfigMap)
-        .then<bool>((isConfig) => isConfig);
+    if (Platform.isAndroid) {
+      return _channel
+          .invokeMethod('setLoginUiConfig', uiConfigMap)
+          .then<bool>((isConfig) => isConfig);
+    } else {
+      return new Future(() {
+        return true;
+      });
+    }
   }
 
   ///UI页面配置
   ///loginThemeConfig 自定义协议文案配置
   Future<bool> setLoginThemeConfig(LoginThemeConfig loginThemeConfig) {
-    return _channel
-        .invokeMethod('setLoginThemeConfig', loginThemeConfig.toJson())
-        .then<bool>((isConfig) => isConfig);
+    if (Platform.isAndroid) {
+      return _channel
+          .invokeMethod('setLoginThemeConfig', loginThemeConfig.toJson())
+          .then<bool>((isConfig) => isConfig);
+    } else {
+      return new Future(() {
+        return true;
+      });
+    }
   }
 
   ///登陆
   Future<String> login() {
-    return _channel
-        .invokeMethod('login')
-        .then<String>((loginResult) => loginResult);
-  }
-//统一处理用户取消登录及“其他登录方式”的回调
-  String handleUserCancelAndOtherWayLogin(String loginResult){
-    if(Platform.isAndroid){
-
-
-    }else if(Platform.isIOS){
-
-    }else{
-
+    if (Platform.isAndroid) {
+      return _channel
+          .invokeMethod('login')
+          .then<String>((loginResult) => loginResult);
+    } else if (Platform.isIOS) {
+      //IOS平台暂时不支持一键登录，处理成其他登录方式的情形
+      Map<String, dynamic> result = new Map();
+      result['login_result'] = 'false';
+      result['login_data'] = 'otherWayLogin';
+      return new Future(() {
+        return json.encode(result);
+      });
+    } else {
+      Map<String, dynamic> result = new Map();
+      result['login_result'] = 'false';
+      result['login_data'] = 'notImplemented...';
+      return new Future(() {
+        return json.encode(result);
+      });
     }
+  }
+
+//统一处理用户取消登录及“其他登录方式”的回调
+  String handleUserCancelAndOtherWayLogin(String loginResult) {
+    if (Platform.isAndroid) {
+    } else if (Platform.isIOS) {
+    } else {}
     return "";
   }
 }
