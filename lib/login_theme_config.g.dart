@@ -24,7 +24,9 @@ LoginThemeConfig _$LoginThemeConfigFromJson(Map<String, dynamic> json) {
       clauseTwoName: json['clauseTwoName'] as String,
       clauseTwoUrl: json['clauseTwoUrl'] as String,
       clauseColorBase: json['clauseColorBase'] as int,
-      clauseColorAgree: json['clauseColorAgree'] as int);
+      clauseColorAgree: json['clauseColorAgree'] as int,
+      otherWayLogin: json['otherWayLogin'] as bool);
+
 }
 
 Map<String, dynamic> _$LoginThemeConfigToJson(
@@ -48,4 +50,5 @@ Map<String, dynamic> _$LoginThemeConfigToJson(
       'clauseTwoUrl': instance.clauseTwoUrl,
       'clauseColorBase': instance.clauseColorBase,
       'clauseColorAgree': instance.clauseColorAgree,
+      'otherWayLogin':instance.otherWayLogin,
     };

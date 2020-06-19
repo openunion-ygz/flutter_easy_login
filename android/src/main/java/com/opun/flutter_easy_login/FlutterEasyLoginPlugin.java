@@ -8,6 +8,10 @@ import android.util.Log;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import com.alibaba.fastjson.JSON;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -89,7 +93,7 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
                     if (getLoginUiConfig() != null) {
                         login(result);
                     } else {
-                        setLoginUiConfig("", "");
+                        setLoginThemeConfig(call);
                         login(result);
                     }
                 } else {
@@ -299,10 +303,12 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
             yidongConfig.setPrivacyAlignment5("https://www.hao123.com");
             yidongConfig.setPrivacyTextColor1(0xff666666);//文字颜色
             yidongConfig.setPrivacyTextColor2(0xff0085d0);//条款颜色
+            yidongConfig.setShowOtherLogin(true);//默认显示“其他登录方式”
 
             //注意，当setShowProtocolBox = false时，只能通过代码来设置按钮文字
             lianTongLoginConfig.setLoginButtonText("快捷登录");//按钮文字内容
             lianTongLoginConfig.setProtocolUrl("https://www.baidu.com");
+            lianTongLoginConfig.setShowOtherLogin(true);
 
             dianXinLoginConfig.setPrivacyTextColor(0xFF000000);//隐私协议文本的字体颜色
             dianXinLoginConfig.setCustomAgreementTitle("《我的自定义协议》");//自定义协议标题
@@ -425,6 +431,12 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
                 yidongConfig.setPrivacyTextColor2(0xff0085d0);//条款颜色
                 dianXinLoginConfig.setCustomAgreementTitleColor(0xFF0090FF);//自定义协议标题的字体颜色
             }
+            boolean showOtherWayLogin = true;
+            if (call.argument("otherWayLogin") != null){
+                showOtherWayLogin = call.argument("otherWayLogin");
+            }
+            yidongConfig.setShowOtherLogin(showOtherWayLogin);
+            lianTongLoginConfig.setShowOtherLogin(showOtherWayLogin);
         }
         uiConfig.setYiDongLoginConfig(yidongConfig);
         uiConfig.setLianTongLoginConfig(lianTongLoginConfig);
@@ -449,6 +461,7 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
         return mLoginUiConfig;
     }
 
+    private String errorData = "";
     private void login(Result result) {
         Map<String,Object> resultMap = new HashMap<>();
         if (appId.isEmpty() || secretKey.isEmpty()){
@@ -480,12 +493,52 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
                     Log.e(TAG, "===============================================");
                     Log.e("onFailed ==>", s);
                     Log.e(TAG, "===============================================");
+                    errorData = s;
+                    if (NetUtils.getOperatorType(activity.getApplicationContext()).equals(Constants.NET_TYPE_CMCC)){
+                        //移动
+                        Log.e("OperatorType ==>", "移动");
+                        if (s.equals("用户取消登录")){
+                            errorData = Constants.USER_CANCEL_STATE;
+                        }
+
+                    }else if(NetUtils.getOperatorType(activity.getApplicationContext()).equals(Constants.NET_TYPE_CUCC)){
+                        //联通
+                        Log.e("OperatorType ==>", "联通");
+                        if (s.equals("用户取消登录")){
+                            errorData =Constants.USER_CANCEL_STATE;
+                        }
+
+                    }else if (NetUtils.getOperatorType(activity.getApplicationContext()).equals(Constants.NET_TYPE_CUCC)){
+                        //电信
+                        Log.e("OperatorType ==>", "电信");
+                        if (s != null){
+                            JSONObject jsonObject = null;
+                            int resultCode = 0;
+                            try {
+                                jsonObject = new JSONObject(s);
+                                resultCode = jsonObject.getInt("result");
+                                //用户取消登录
+                                if (resultCode == 80200){
+                                    errorData =Constants.USER_CANCEL_STATE;
+                                }
+                                //其他登录方式
+                                if (resultCode == 80201){
+                                    errorData = Constants.OTHER_WAY_LOGIN;
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+
+                    }
                     activity.runOnUiThread(
                             new Runnable() {
                                 @Override
                                 public void run() {
                                     resultMap.put(Constants.LOGIN_RESULT_KEY, "false");
-                                    resultMap.put(Constants.LOGIN_DATA_KEY, s);
+                                    resultMap.put(Constants.LOGIN_DATA_KEY, errorData);
                                     String resultFailed = JSON.toJSONString(resultMap);
                                     result.success(resultFailed);
                                 }

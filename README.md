@@ -117,6 +117,10 @@ A EasyLogin Flutter plugin.
     appSPrivacyUrl //开发者隐私条款协议2 url
     privacyColor //隐私条款协议颜色
 
+    otherWayLogin//是否显示其他登录方式（默认显示，其中，电信运营商不可控制隐藏及显示，其规定必须显示；
+
+    其他登录方式的回调在回调的 fail中）
+
     3.登录方法：
 
     FlutterEasyLogin.instance.login();
@@ -141,6 +145,28 @@ A EasyLogin Flutter plugin.
 
        其中，FlutterEasyLogin.LOGIN_RESULT_KEY,FlutterEasyLogin.LOGIN_DATA_KEY 为固定的键
 
+       4.用户主动取消的回调在login()方法中返回，根据运营商的不同，返回码分别为：
+
+       移动:200020
+
+       联通:101007
+
+       电信:80200
+
+       最后，在login()回调方法中，对应的标识为：Constants.USER_CANCEL_STATE
+
+       5.“其他登录方式”：默认显示，若需要显示并使用，则可通过setLoginThemeConfig()方法进行设置；同时，其回到也可以通过
+
+       login()方法得到，根据不同的运营商，其返回码分别为：
+
+        移动:
+
+        联通:
+
+        电信:80201
+
+        最后，在login()回调方法中，对应的标识为：Constants.OTHER_WAY_LOGIN
+
 ## 四、注意事项：
 
     1.由于Flutter插件开发的需要，本插件中的example/android工程的包名并不是亿美一键登录后台的对应的包名，因此在运行example/android项目时，
@@ -154,3 +180,10 @@ A EasyLogin Flutter plugin.
 ##=========================================================================================
 
 ## IOS
+
+       1.用户主动取消的回调在login()方法中返回，返回码为：CANCLE_LOGIN，同时，login()方法的回调中，标识为： Constants.USER_CANCEL_STATE
+
+       2.“其他登录方式”：默认显示，若需要显示并使用，则可通过setLoginThemeConfig()方法进行设置；同时，其回到也可以通过
+
+       login()方法得到，其返回码为：CHANGE_LOGIN_TYPE，同时，login()方法的回调中，标识为：Constants.OTHER_WAY_LOGIN
+

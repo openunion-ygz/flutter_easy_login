@@ -9,4 +9,8 @@ class Constants {
 
   static const PLATFORM_CONFIG_APPID = 'appId';
   static const PLATFORM_CONFIG_SECRET_KEY = 'secretKey';
+  //用户去取消登录标识
+  static const USER_CANCEL_STATE = 'CANCEL_LOGIN';
+  //切换其他登录方式标识
+  static const OTHER_WAY_LOGIN = 'otherWayLogin';
 }

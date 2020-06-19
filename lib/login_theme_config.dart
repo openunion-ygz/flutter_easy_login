@@ -29,6 +29,8 @@ class LoginThemeConfig{
   String clauseTwoUrl;
   int clauseColorBase;  ///设置隐私条款名称颜色(基础文字颜色，协议文字颜色)
   int clauseColorAgree;
+  ///是否显示其他登录方式
+  bool otherWayLogin;
 
   LoginThemeConfig({
     bool useDefaultTheme:true,
@@ -49,6 +51,7 @@ class LoginThemeConfig{
     String clauseTwoUrl,
     int clauseColorBase,
     int clauseColorAgree,
+    bool otherWayLogin:true,
   }){
     this.useDefaultTheme =      useDefaultTheme;
     this.navColor=              navColor;
@@ -68,6 +71,7 @@ class LoginThemeConfig{
     this.clauseTwoUrl=          clauseTwoUrl;
     this.clauseColorBase=       clauseColorBase;
     this.clauseColorAgree=      clauseColorAgree;
+    this.otherWayLogin=         otherWayLogin;
   }
 
   factory LoginThemeConfig.fromJson(Map<String, dynamic> json) => _$LoginThemeConfigFromJson(json);

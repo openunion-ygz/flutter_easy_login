@@ -4,10 +4,6 @@
 #import "UniLogin/UniLogin.h"
 #import "NSData+AES.h"
 
-#define AppId @"f5b044a76b2341daa27b656e5e69ce22"
-#define SecretKey @"92eec5356dda4216"
-
-#define SecretKey_Phone @"6f5987e2d6b14543"
 
 __weak FlutterEasyLoginPlugin* __FlutterEasyLoginPlugin;
 @property (readwrite,copy,nonatomic) FlutterResult __result;
@@ -171,6 +167,7 @@ BOOL isExistKeyValue(NSDictionary* dict, NSString* key ) {
 UACustomModel *model = [UACustomModel new];
 model.currentVC = self;
 //默认使用亿美默认主题
+
 //是否使用默认主题
 BOOL useDefaultTheme = isExistKeyValue(themeConfigDict,@"useDefaultTheme") ? [[themeConfigDict objectForKey:@"useDefaultTheme"] boolValue]: YES;
 
@@ -211,6 +208,8 @@ NSString clauseTwoUrl = isExistKeyValue(themeConfigDict,@"clauseTwoUrl") ? [them
 long clauseColorBase = isExistKeyValue(themeConfigDict,@"clauseColorBase")  ? [[themeConfigDict objectForKey:@"clauseColorBase"] longValue]: colorToHex([UIColor blackColor]);
 //自定义协议字体颜色
 long clauseColorAgree = isExistKeyValue(themeConfigDict,@"clauseColorAgree")  ? [[themeConfigDict objectForKey:@"clauseColorAgree"] longValue]: colorToHex([UIColor blackColor]);
+//是否显示其他登录方式
+BOOL showOtherWayLogin = isExistKeyValue(themeConfigDict,@"otherWayLogin") ? [[themeConfigDict objectForKey:@"otherWayLogin"] boolValue]: NO;
 
 
  // 是否开启自定义属性设置 appPrivacyAlignment 0 --使用默认 1--自定义
@@ -282,7 +281,7 @@ if(!useDefaultTheme){
          //24、号码栏Y偏移量
          model.numberOffsetY = @100;
          //25、切换按钮隐藏开关
-         model.swithAccHidden = YES;
+         model.swithAccHidden = !showOtherWayLogin;
          //26、切换账号
          model.switchAccText = [[NSAttributedString alloc]initWithString:@"自定义切换账号" attributes:@{NSForegroundColorAttributeName:UIColor.redColor,NSFontAttributeName:[UIFont systemFontOfSize:17]}];
          //27、切换账号偏移量
@@ -340,6 +339,8 @@ int logoHeight =  isExistKeyValue(themeConfigDict,@"logoHeight")  ? [[themeConfi
 NSString clauseOneName = isExistKeyValue(themeConfigDict,@"clauseOneName") ? [themeConfigDict objectForKey:@"clauseOneName"] : @"开联用户协议1";
 //用户自定义协议1对应的url
 NSString clauseOneUrl = isExistKeyValue(themeConfigDict,@"clauseOneUrl") ? [themeConfigDict objectForKey:@"clauseOneUrl"] : @"https://www.baidu.com";
+//是否显示其他登录方式
+BOOL showOtherWayLogin = isExistKeyValue(themeConfigDict,@"otherWayLogin") ? [[themeConfigDict objectForKey:@"otherWayLogin"] boolValue]: NO;
 
 
         ZOAUCustomModel *mAuthPage = [[ZOAUCustomModel alloc]init];
@@ -354,6 +355,7 @@ NSString clauseOneUrl = isExistKeyValue(themeConfigDict,@"clauseOneUrl") ? [them
         NSString *url = [cuccAppPrivacy lastObject];
         mAuthPage.appFPrivacyText = text;
         mAuthPage.appFPrivacyUrl = url;
+        mAuthPage.swithAccHidden = !showOtherWayLogin;
         [[ZUOAuthManager getInstance] customUIWithParams:mAuthPage topCustomViews:^(UIView *customView) {
 //            UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
 //                        button.frame = CGRectMake(250, 60, 60, 30);
@@ -413,6 +415,8 @@ return mAuthPage;
   long clauseColorBase = isExistKeyValue(themeConfigDict,@"clauseColorBase")  ? [[themeConfigDict objectForKey:@"clauseColorBase"] longValue]: colorToHex([UIColor blackColor]);
   //自定义协议字体颜色
   long clauseColorAgree = isExistKeyValue(themeConfigDict,@"clauseColorAgree")  ? [[themeConfigDict objectForKey:@"clauseColorAgree"] longValue]: colorToHex([UIColor blackColor]);
+  //是否显示其他登录方式
+  BOOL showOtherWayLogin = isExistKeyValue(themeConfigDict,@"otherWayLogin") ? [[themeConfigDict objectForKey:@"otherWayLogin"] boolValue]: NO;
 
 
     // 设置电信授权页面弹出消失动画
@@ -475,12 +479,12 @@ return mAuthPage;
           //    config.loadingImg = [self readImageByNameFromBundle:@"logo_mini"];
 
               /*============================================其他登录方式按钮配置示例=========================================*/
-          //    config.otherWayLogBtnText = @"到别的地方";
-          //    config.otherWayLogBtnOffsetY = 150;
-          //    config.otherWayLogBtnTextColor_normal = [UIColor blueColor];
+              config.otherWayLogBtnText = @"其他登录方式";
+              config.otherWayLogBtnOffsetY = 150;
+              config.otherWayLogBtnTextColor_normal = [UIColor blueColor];
           //    config.otherWayLogBtnTextColor_highlighted = [UIColor redColor];
-          //    config.otherWayLogBtnTextSize = 22;
-          //    config.otherWayLogBtnHidden = NO;
+              config.otherWayLogBtnTextSize = 22;
+              config.otherWayLogBtnHidden = !showOtherWayLogin;
 
               /*=============================================勾选按钮 配置示例=============================================*/
           //    config.checkState = EACCOUNT_CHECKSTATE_UNCHECKED;

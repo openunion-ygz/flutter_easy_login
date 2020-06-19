@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_easy_login/constants.dart';
@@ -60,6 +61,20 @@ class FlutterEasyLogin {
   Future<String> login() {
     return _channel
         .invokeMethod('login')
-        .then<String>((loginResult) => loginResult);
+        .then<String>((loginResult){
+          return handleUserCancelAndOtherWayLogin(loginResult);
+    });
+  }
+//统一处理用户取消登录及“其他登录方式”的回调
+  String handleUserCancelAndOtherWayLogin(String loginResult){
+    if(Platform.isAndroid){
+
+
+    }else if(Platform.isIOS){
+
+    }else{
+
+    }
+    return "";
   }
 }

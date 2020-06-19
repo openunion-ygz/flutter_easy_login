@@ -58,7 +58,7 @@ class _MyAppState extends State<MyApp> {
             children: <Widget>[
               RaisedButton(child: Text('亿美一键登录初始化'),
                   onPressed: (){
-                    FlutterEasyLogin.instance.initSdk("f5b044a76b2341daa27b656e5e69ce22","92eec5356dda4216");
+                    FlutterEasyLogin.instance.initSdk("","");
                     FlutterEasyLogin.instance.setLoginUiConfig('开联自定义协议', 'http://www.baidu.com');
                     LoginThemeConfig themeConfig = new LoginThemeConfig(useDefaultTheme: true,navText: "一键登录");
                     FlutterEasyLogin.instance.setLoginThemeConfig(themeConfig);
