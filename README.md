@@ -49,9 +49,7 @@ A EasyLogin Flutter plugin.
              }
          }
 
-    5.将example项目下的drawable/ct_account_min_dialog.xml,layout下的联通及电信xml登录授权页面xml文件，values的文件进行合并
-
-    （假如文件不存在，则直接拷贝，存在则合并），需要注意的是：移动不能通过xml的形式修改登录授权页面样式，只有联通及电信可以修改部分
+    5.将example项目下layout下的联通及电信xml登录授权页面xml文件拷贝到项目对应的Android目录下，需要注意的是：移动不能通过xml的形式修改登录授权页面样式，只有联通及电信可以修改部分
 
     通过xml文件修改部分页面样式，同时，不允许删除xml中的任何元素，只能修改其样式；另外联通及电信的部分样式，需要通过代码设置，具体
 
