@@ -29,14 +29,14 @@
             android:name="com.sdk.mobile.manager.login.cucc.OauthActivity"
             android:screenOrientation="portrait"
             tools:replace="android:theme"
-            android:theme="@style/Theme.ActivityDialogStyle"	/>
+            android:theme="@style/Theme.ActivityDialogStyle"/>
         <!--        电信-->
         <!--	若只有普通登录页面，则不需要声明MiniAuthActivity	-->
         <activity
             android:name="cn.com.chinatelecom.account.sdk.ui.AuthActivity"
             android:exported="false"
             android:theme="@style/ct_account_act_theme"
-            android:screenOrientation="portrait"	/>
+            android:screenOrientation="portrait"/>
         <activity
             android:name="cn.com.chinatelecom.account.sdk.ui.PrivacyWebviewActivity"
             android:exported="false"
