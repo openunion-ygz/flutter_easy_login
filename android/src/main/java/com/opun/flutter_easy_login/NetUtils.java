@@ -38,7 +38,7 @@ public class NetUtils {
             } else if ("46001".equals(operator)) {
                 // 中国联通
                 OperatorType = Constants.NET_TYPE_CUCC;
-            } else if ("46003".equals(operator)) {
+            } else if ("46003".equals(operator) || "46011".equals(operator)) {
                 // 中国电信
                 OperatorType = Constants.NET_TYPE_CTCC;
             }

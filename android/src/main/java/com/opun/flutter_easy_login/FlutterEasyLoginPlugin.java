@@ -519,7 +519,7 @@ public class FlutterEasyLoginPlugin implements MethodCallHandler, PluginRegistry
                             errorData = Constants.OTHER_WAY_LOGIN;
                         }
 
-                    } else if (NetUtils.getOperatorType(activity.getApplicationContext()).equals(Constants.NET_TYPE_CUCC)) {
+                    } else if (NetUtils.getOperatorType(activity.getApplicationContext()).equals(Constants.NET_TYPE_CTCC)) {
                         //电信
                         Log.e("OperatorType ==>", "电信");
                         if (errorData != null) {

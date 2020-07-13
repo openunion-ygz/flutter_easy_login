@@ -97,10 +97,10 @@ class FlutterEasyLogin {
   }
 
 //统一处理用户取消登录及“其他登录方式”的回调
-  String handleUserCancelAndOtherWayLogin(String loginResult) {
-    if (Platform.isAndroid) {
-    } else if (Platform.isIOS) {
-    } else {}
-    return "";
-  }
+//  String handleUserCancelAndOtherWayLogin(String loginResult) {
+//    if (Platform.isAndroid) {
+//    } else if (Platform.isIOS) {
+//    } else {}
+//    return "";
+//  }
 }
